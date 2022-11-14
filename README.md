@@ -1,7 +1,4 @@
 ## Publish command
-```bash
-np --no-publish && npm publish
-```
 
 # TSDX React User Guide
 
