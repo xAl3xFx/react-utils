@@ -177,7 +177,7 @@ export const DynamicForm = <T extends FormikValues, >(
                 }
                 case "dropdown": {
                     //@ts-ignore
-                    el = generateDropdownField({field: key, label, options: props.formElements[key].options, props: {...elProps, filter: true}, selectIfSingle: true, optionValue: props.optionValue, optionLabel: props.optionLabel});
+                    el = generateDropdownField({field: key, label, options: props.formElements[key].options, props: {...elProps, filter: true}, selectIfSingle: true, optionValue: props.optionValue, optionLabel: props.optionLabel, button: props.formElements[key].button});
                     // el = generateDropdownField(key, label, props.formElements[key].options, elProps, undefined, true);
                     break;
                 }

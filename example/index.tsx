@@ -9,6 +9,7 @@ import {useFormik} from "formik";
 import {DynamicForm} from "../src";
 import {FormElementValues} from "../src";
 import {IDropdownOption} from "../src/util-service";
+import {Button} from "primereact/button";
 
 const App = () => {
     const initialValues = {
@@ -55,7 +56,8 @@ const App = () => {
     const age: FormElementValues<'dropdown'> = {
         type: 'dropdown',
         label: 'age',
-        options: options2
+        options: options2,
+        button: <Button icon={'pi pi-plus'} />
     }
 
     const {generateDropdownField} = UtilService.fieldUtils(formik);
