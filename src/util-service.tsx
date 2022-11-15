@@ -9,11 +9,13 @@ import moment from "moment-timezone";
 import cloneDeep from 'lodash.clonedeep';
 import {Password, PasswordProps} from "primereact/password";
 
-export interface IDropdownOption {
+interface IDropdownOptionBase {
     key: number | string;
-    description: string;
-    id: number | string | boolean;
+    description?: string;
+    id?: number | string | boolean;
 }
+
+export type IDropdownOption = IDropdownOptionBase & {[key: string] : any}
 
 const parseNestedObject = (object: any, key: string | number | symbol) => {
     let res = object;
@@ -100,9 +102,19 @@ interface IFieldUtils {
 
 export class UtilService {
     public static intlFormatter: any;
+    public static optionValue: string;
+    public static optionLabel: string;
 
     static setIntlFormatter(intlFormatter: any) {
         this.intlFormatter = intlFormatter;
+    }
+
+    static setOptionValue(optionValue: string) {
+        this.optionValue = optionValue;
+    }
+
+    static setOptionLabel(optionLabel: string) {
+        this.optionLabel = optionLabel;
     }
 
     static formikUtils(formik: any): [(name: string) => boolean, (name: string) => boolean | JSX.Element] {
@@ -172,12 +184,12 @@ export class UtilService {
         const generateDropdownField = (options: DropdownFieldOptions) => {
             if(options.selectIfSingle){
                 const parsedValue = parseNestedObject(formik.values, options.field);
-                if(options.options && options.options.length === 1 && parsedValue !== options.options[0].id){
+                if(options.options && options.options.length === 1 && parsedValue !== options.options[0][options.optionValue || this.optionValue || 'id']){
                     const clonedValues = cloneDeep(formik.values);
-                    const changedValues = setNestedObject(clonedValues, options.field, options.options[0].id);
+                    const changedValues = setNestedObject(clonedValues, options.field, options.options[0][options.optionValue || this.optionValue || 'id']);
                     formik.setValues(changedValues);
                     if(onChangeCallback)
-                        onChangeCallback(options.field, options.options[0].id);
+                        onChangeCallback(options.field, options.options[0][options.optionValue || this.optionValue || 'id']);
                 }
             }
             if (options.button !== undefined) {
@@ -185,7 +197,7 @@ export class UtilService {
                     <div className="p-field">
                 <span className="p-float-label">
                     <div className="p-inputgroup">
-                    <Dropdown name={options.field} optionValue={options.optionValue || 'id'} optionLabel={options.optionLabel || 'description'} options={options.options}
+                    <Dropdown name={options.field} optionValue={options.optionValue || this.optionValue || 'id'} optionLabel={options.optionLabel || this.optionLabel || 'description'} options={options.options}
                               value={parseNestedObject(formik.values, options.field)} onChange={e => {
                         if (e.value !== 'SkeletonOption'){
                             if(onChangeCallback)
@@ -193,7 +205,7 @@ export class UtilService {
                             formik.handleChange(e)
                         }
                     }
-                    } itemTemplate={this.skeletonOptionTemplate} {...options.props}/>
+                    } itemTemplate={(option: any) => this.skeletonOptionTemplate(option, options.optionLabel)} {...options.props}/>
                         {options.button}
                         <label className={'p-ml-2'}>{this.intlFormatter({id: options.label})}</label>
                     </div>
@@ -205,7 +217,7 @@ export class UtilService {
                 return <>
                     <div className="p-field">
                 <span className="p-float-label">
-                    <Dropdown name={options.field} optionValue={options.optionValue || 'id'} optionLabel={options.optionLabel || 'description'} options={options.options}
+                    <Dropdown name={options.field} optionValue={options.optionValue || this.optionValue || 'id'} optionLabel={options.optionLabel || this.optionLabel || 'description'} options={options.options}
                               value={parseNestedObject(formik.values, options.field)} onChange={e => {
                         if (e.value !== 'SkeletonOption'){
                             if(onChangeCallback)
@@ -213,7 +225,7 @@ export class UtilService {
                             formik.handleChange(e)
                         }
                     }
-                    } itemTemplate={this.skeletonOptionTemplate} {...options.props}/>
+                    } itemTemplate={(option: any) => this.skeletonOptionTemplate(option, options.optionLabel)} {...options.props}/>
                     <label>{this.intlFormatter({id: options.label})}</label>
                 </span>
                         {getFormErrorMessage(options.field)}
@@ -227,7 +239,7 @@ export class UtilService {
             return <>
                 <div className="p-field">
                 <span className="p-float-label">
-                    <MultiSelect name={options.field} optionValue={options.optionValue || 'id'} optionLabel={options.optionLabel || 'description'} options={options.options}
+                    <MultiSelect name={options.field} optionValue={options.optionValue || this.optionValue || 'id'} optionLabel={options.optionLabel || this.optionLabel || 'description'} options={options.options}
                                  value={parseNestedObject(formik.values, options.field)} onChange={e => {
                         if (e.value !== 'SkeletonOption'){
                             if(onChangeCallback)
@@ -235,7 +247,7 @@ export class UtilService {
                             formik.handleChange(e)
                         }
                     }
-                    } itemTemplate={this.skeletonOptionTemplate} {...options.props}/>
+                    } itemTemplate={(option: any) => this.skeletonOptionTemplate(option, options.optionLabel)} {...options.props}/>
                     <label>{this.intlFormatter({id: options.label})}</label>
                 </span>
                     {getFormErrorMessage(options.field)}
@@ -282,7 +294,7 @@ export class UtilService {
         }
 
         return gridData.reduce((acc: any, el) => {
-            if (acc.some((option: any) => option.id === el[valueColumn])) {
+            if (acc.some((option: any) => option[this.optionValue || 'id'] === el[valueColumn])) {
                 return acc;
             }
             if (labelFields && typeof labelColumn === 'string') {
@@ -292,16 +304,15 @@ export class UtilService {
                     description = description.replace('?', parseNestedObject(el, labelField));
                 })
                 return [...acc, {
-                    id: el[valueColumn],
-                    //@ts-ignore
-                    description: description,
+                    [this.optionValue || 'id']: el[valueColumn],
+                    [this.optionLabel || 'description'] : description,
                     key: el[valueColumn]
                 }];
             } else {
                 return [...acc, {
-                    id: el[valueColumn],
+                    [this.optionValue || 'id']: el[valueColumn],
                     //@ts-ignore
-                    description: String(el[labelColumn]),
+                    [this.optionLabel || 'description']: String(el[labelColumn]),
                     key: el[valueColumn]
                 }];
             }
@@ -310,24 +321,24 @@ export class UtilService {
     }
 
     static initialDropdownOptions = Array.from(Array(5).keys()).map(key => {
-        return {key: key + 1, id: 'SkeletonOption', description: "SkeletonOption"}
+        return {key: key + 1, [this.optionValue || 'id']: 'SkeletonOption', [this.optionLabel || 'description']: "SkeletonOption"}
     });
 
     static generateDropdownOptionsFromLis(list: string[]) {
         return list.map(el => {
             return {
-                id: el,
-                description: el,
+                [this.optionValue || 'id']: el,
+                [this.optionLabel || 'description']: el,
                 key: el
             }
         })
     }
 
-    static skeletonOptionTemplate = (option: any) => {
-        if (option.description === 'SkeletonOption') {
+    static skeletonOptionTemplate = (option: any, optionLabel?: string) => {
+        if (option[optionLabel || this.optionLabel || 'description'] === 'SkeletonOption') {
             return <Skeleton/>
         } else {
-            return <div>{option.description}</div>
+            return <div>{option[optionLabel || this.optionLabel || 'description']}</div>
         }
     }
 

@@ -6,23 +6,44 @@ import "primereact/resources/primereact.min.css";                  //core css
 import "primeicons/primeicons.css";                                //icons
 import {UtilService} from "../src/util-service";
 import {useFormik} from "formik";
+import {DynamicForm} from "../src";
+import {FormElementValues} from "../src";
+import {IDropdownOption} from "../src/util-service";
 
 const App = () => {
     const initialValues = {
-        person:{
-            age: 0
-        }
+        age: 0
     }
 
-    const options = [
+    const options : IDropdownOption[] = [
         {
-            id: 1,
-            description: '10',
-            key: 1
+            key: 1,
+            label: '1',
+            value: 1
+        },
+        {
+            value: 2,
+            label: '2',
+            key: 2
+        },
+    ]
+
+    const options2 : IDropdownOption[] = [
+        {
+            key: 1,
+            kur: '1',
+            value: 1
+        },
+        {
+            key: 2,
+            kur: '2',
+            value: 2,
         },
     ]
 
     UtilService.setIntlFormatter(() => 0)
+    UtilService.setOptionValue('value')
+    UtilService.setOptionLabel('label')
 
     const formik = useFormik({
         initialValues,
@@ -31,12 +52,25 @@ const App = () => {
         }
     })
 
+    const age: FormElementValues<'dropdown'> = {
+        type: 'dropdown',
+        label: 'age',
+        options: options2
+    }
+
     const {generateDropdownField} = UtilService.fieldUtils(formik);
-  return (
-    <div>
-        {generateDropdownField({field: 'person.age', label: 'age', options, selectIfSingle: true})}
-    </div>
-  );
+    const formElements = {
+        age
+    }
+    return (
+        <div className={'p-mt-3'}>
+            {/*{generateDropdownField({field: 'person.age', label: 'age', options, selectIfSingle: true})}*/}
+            <DynamicForm formElements={formElements} initialValues={initialValues} fieldOrder={['age']}
+                         optionLabel={'kur'}
+                         onCreate={() => Promise.resolve(true)} onUpdate={() => Promise.resolve(true)} isUpdate={false}
+                         onCancelUpdate={() => 0}></DynamicForm>
+        </div>
+    );
 };
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<App/>, document.getElementById('root'));
