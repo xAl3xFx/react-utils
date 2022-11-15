@@ -8,6 +8,7 @@ import {Calendar, CalendarProps} from "primereact/calendar";
 import moment from "moment-timezone";
 import cloneDeep from 'lodash.clonedeep';
 import {Password, PasswordProps} from "primereact/password";
+import * as Util from "util";
 
 interface IDropdownOptionBase {
     key: number | string;
@@ -321,24 +322,24 @@ export class UtilService {
     }
 
     static initialDropdownOptions = Array.from(Array(5).keys()).map(key => {
-        return {key: key + 1, [this.optionValue || 'id']: 'SkeletonOption', [this.optionLabel || 'description']: "SkeletonOption"}
+        return {key: key + 1, [UtilService.optionValue || 'id']: 'SkeletonOption', [UtilService.optionLabel || 'description']: "SkeletonOption"}
     });
 
     static generateDropdownOptionsFromLis(list: string[]) {
         return list.map(el => {
             return {
-                [this.optionValue || 'id']: el,
-                [this.optionLabel || 'description']: el,
+                [UtilService.optionValue || 'id']: el,
+                [UtilService.optionLabel || 'description']: el,
                 key: el
             }
         })
     }
 
     static skeletonOptionTemplate = (option: any, optionLabel?: string) => {
-        if (option[optionLabel || this.optionLabel || 'description'] === 'SkeletonOption') {
+        if (option[optionLabel || UtilService.optionLabel || 'description'] === 'SkeletonOption') {
             return <Skeleton/>
         } else {
-            return <div>{option[optionLabel || this.optionLabel || 'description']}</div>
+            return <div>{option[optionLabel || UtilService.optionLabel || 'description']}</div>
         }
     }
 
