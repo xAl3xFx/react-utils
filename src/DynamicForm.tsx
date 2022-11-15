@@ -38,6 +38,7 @@ type FormElementProps<T extends FormElementType> =
                     {
                         props?: MultiSelectProps;
                         options: IDropdownOption[];
+                        button?: JSX.Element;
                     }
                     :
                     {
@@ -183,7 +184,7 @@ export const DynamicForm = <T extends FormikValues, >(
                 }
                 case "multiselect": {
                     //@ts-ignore
-                    el = generateMultiselectField({field: key, label, options: props.formElements[key].options, elProps, optionValue: props.optionValue, optionLabel: props.optionLabel});
+                    el = generateMultiselectField({field: key, label, options: props.formElements[key].options, elProps, optionValue: props.optionValue, optionLabel: props.optionLabel, button: props.formElements[key].button});
                     break;
                 }
                 case "password": {
