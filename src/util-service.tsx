@@ -263,7 +263,7 @@ export class UtilService {
                                 }
                                              itemTemplate={(option: any) => this.skeletonOptionTemplate(option, options.optionLabel)} {...options.props}/>
                                 {options.button}
-                                <label>{this.intlFormatter({id: options.label})}</label>
+                                <label className={'p-ml-2'}>{this.intlFormatter({id: options.label})}</label>
                             </div>
                         </span>
                         {getFormErrorMessage(options.field)}
