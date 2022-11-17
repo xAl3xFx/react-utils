@@ -57,9 +57,9 @@ const App = () => {
         },
     ]
 
-    UtilService.setIntlFormatter(() => 0)
-    UtilService.setOptionValue('value')
-    UtilService.setOptionLabel('label')
+    UtilService.setIntlFormatter(({id}) => id);
+    UtilService.setOptionValue('value');
+    UtilService.setOptionLabel('label');
 
     const formik = useFormik({
         initialValues,
@@ -68,28 +68,39 @@ const App = () => {
         }
     })
 
-    const age: FormElementValues<'multiselect'> = {
-        type: 'multiselect',
+    const age: FormElementValues<'dropdown'> = {
+        type: 'dropdown',
         label: 'age',
-        options: options2,
-        button: <Button icon={'pi pi-plus'} />
+        options: options,
+    }
+
+    const name: FormElementValues<'text'> = {
+        type: "text",
+        label: "name",
     }
 
     const {generateDropdownField} = UtilService.fieldUtils(formik);
     const formElements = {
-        age
+        age,
+        name
+    }
+
+    const filedChangeCallback = (field: string, value: any) => {
+        console.log("CALLBACK", field, value);
     }
     return (
         <div className={'p-mt-3'}>
-            <div style={{width: '20vw'}}>
-                <DynamicForm formElements={formElements} initialValues={initialValues} fieldOrder={['age']}
-                             optionLabel={'kur'}
-                             onCreate={() => Promise.resolve(true)} onUpdate={() => Promise.resolve(true)} isUpdate={false}
-                             onCancelUpdate={() => 0}></DynamicForm>
+                <DynamicForm
+                    formElements={formElements}
+                    initialValues={initialValues}
+                    fieldOrder={['age', 'name']}
+                    onCreate={() => Promise.resolve(true)}
+                    onUpdate={() => Promise.resolve(true)}
+                    isUpdate={false}
+                    onFieldChangeCallback={filedChangeCallback}
+                    onCancelUpdate={() => 0} />
             </div>
-            {/*{generateDropdownField({field: 'person.age', label: 'age', options, selectIfSingle: true})}*/}
-        </div>
-    );
+    )
 };
 
 ReactDOM.render(<App/>, document.getElementById('root'));

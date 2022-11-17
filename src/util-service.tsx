@@ -137,11 +137,12 @@ export class UtilService {
             return <>
                 <div className="p-field">
                 <span className="p-float-label">
-                    <InputText onChange={e => {
-                        if (onChangeCallback)
+                    <InputText {...formik.getFieldProps(options.field)} {...options.props || {}} onChange={e => {
+                        if (onChangeCallback) {
                             onChangeCallback(options.field, e.target.value);
+                        }
                         formik.handleChange(e);
-                    }} {...formik.getFieldProps(options.field)} {...options.props || {}}/>
+                    }}/>
                     <label>{this.intlFormatter({id: options.label})}</label>
                 </span>
                     {getFormErrorMessage(options.field)}
