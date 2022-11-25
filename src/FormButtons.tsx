@@ -53,7 +53,7 @@ export const FormButtons: React.FC<Props> = props => {
                 <Button type={'submit'} label={getSubmitButtonLabel()}/>
             </div>
             <div className={props.className}>
-                <Button type="reset" onClick={props.onResetForm} label={getResetButtonLabel()}/>
+                <Button type="button" onClick={props.onResetForm} label={getResetButtonLabel()}/>
             </div>
 
             {
