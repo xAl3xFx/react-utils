@@ -187,7 +187,6 @@ export class UtilService {
                 if (parsedValue !== null && options.options && options.options.length === 1 && parsedValue !== options.options[0][options.optionValue || this.optionValue || 'id']) {
                     const clonedValues = cloneDeep(formik.values);
                     const changedValues = setNestedObject(clonedValues, options.field, options.options[0][options.optionValue || this.optionValue || 'id']);
-                    console.log("The changed values are: ", changedValues);
                     formik.setValues(changedValues);
                     if (onChangeCallback)
                         onChangeCallback(options.field, options.options[0][options.optionValue || this.optionValue || 'id']);
