@@ -13,8 +13,7 @@ import {Button} from "primereact/button";
 
 const App = () => {
     const initialValues = {
-        age: [1],
-        cal: new Date()
+        age: []
     }
 
     const options : IDropdownOption[] = [
@@ -59,8 +58,8 @@ const App = () => {
     ]
 
     UtilService.setIntlFormatter(({id}) => id);
-    UtilService.setOptionValue('value')
-    UtilService.setOptionLabel('label')
+    UtilService.setOptionValue('value');
+    UtilService.setOptionLabel('label');
 
     const formik = useFormik({
         initialValues,
@@ -69,30 +68,39 @@ const App = () => {
         }
     })
 
-    const age: FormElementValues<'multiselect'> = {
-        type: 'multiselect',
+    const age: FormElementValues<'dropdown'> = {
+        type: 'dropdown',
         label: 'age',
-        options: options2,
-        button: <Button icon={'pi pi-plus'} />
+        options: options,
     }
 
-
-    const cal: FormElementValues<'calendar'> = {
-        type: 'calendar',
-        label: 'date',
+    const name: FormElementValues<'text'> = {
+        type: "text",
+        label: "name",
     }
 
     const {generateDropdownField} = UtilService.fieldUtils(formik);
     const formElements = {
         age,
-        cal
+        name
+    }
+
+    const filedChangeCallback = (field: string, value: any) => {
+        console.log("CALLBACK", field, value);
     }
     return (
-            <DynamicForm formElements={formElements} initialValues={initialValues} fieldOrder={['age', 'cal']}
-                         optionLabel={'kur'}
-                         onCreate={() => Promise.resolve(true)} onUpdate={() => Promise.resolve(true)} isUpdate={false}
-                         onCancelUpdate={() => 0}/>
-    );
+        <div className={'p-mt-3'}>
+                <DynamicForm
+                    formElements={formElements}
+                    initialValues={initialValues}
+                    fieldOrder={['age', 'name']}
+                    onCreate={() => Promise.resolve(true)}
+                    onUpdate={() => Promise.resolve(true)}
+                    isUpdate={false}
+                    onFieldChangeCallback={filedChangeCallback}
+                    onCancelUpdate={() => 0} />
+            </div>
+    )
 };
 
 ReactDOM.render(<App/>, document.getElementById('root'));

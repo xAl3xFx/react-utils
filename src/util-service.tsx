@@ -21,7 +21,8 @@ export type IDropdownOption = IDropdownOptionBase & { [key: string]: any }
 const parseNestedObject = (object: any, key: string | number | symbol) => {
     let res = object;
     for (let currentKey of key.toString().split('.')) {
-        if (res[currentKey] !== undefined)
+        // if (res[currentKey] !== undefined)
+        if (res.hasOwnProperty(currentKey))
             res = res[currentKey]
         else
             return undefined
@@ -33,15 +34,15 @@ const setNestedObject = (object: any, key: string | number | symbol, value: any)
     let res = object;
     let tokens = key.toString().split('.');
     for (let i = 0; i < tokens.length; i++) {
-
-        if (res[tokens[i]] !== undefined) {
+        if(res.hasOwnProperty(tokens[i])){
             if (i === tokens.length - 1) {
-                res[tokens[i]] = value;
-            } else {
-                res = res[tokens[i]];
-            }
+                    res[tokens[i]] = value;
+                } else {
+                    res = res[tokens[i]];
+                }
         } else
             return undefined
+
     }
     return object;
 }
