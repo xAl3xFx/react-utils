@@ -8,7 +8,6 @@ import {Calendar, CalendarProps} from "primereact/calendar";
 import moment from "moment-timezone";
 import cloneDeep from 'lodash.clonedeep';
 import {Password, PasswordProps} from "primereact/password";
-import * as Util from "util";
 
 interface IDropdownOptionBase {
     key: number | string;
@@ -20,12 +19,12 @@ export type IDropdownOption = IDropdownOptionBase & { [key: string]: any }
 
 const parseNestedObject = (object: any, key: string | number | symbol) => {
     let res = object;
+
     for (let currentKey of key.toString().split('.')) {
-        // if (res[currentKey] !== undefined)
-        if (res.hasOwnProperty(currentKey))
+        if (res && res.hasOwnProperty(currentKey))
             res = res[currentKey]
         else
-            return undefined
+            return null
     }
     return res;
 }
@@ -34,15 +33,13 @@ const setNestedObject = (object: any, key: string | number | symbol, value: any)
     let res = object;
     let tokens = key.toString().split('.');
     for (let i = 0; i < tokens.length; i++) {
-        if(res.hasOwnProperty(tokens[i])){
+        if(res && res.hasOwnProperty(tokens[i])){
             if (i === tokens.length - 1) {
                     res[tokens[i]] = value;
                 } else {
                     res = res[tokens[i]];
                 }
-        } else
-            return undefined
-
+        }else return undefined
     }
     return object;
 }
@@ -187,9 +184,10 @@ export class UtilService {
         const generateDropdownField = (options: DropdownFieldOptions) => {
             if (options.selectIfSingle) {
                 const parsedValue = parseNestedObject(formik.values, options.field);
-                if (options.options && options.options.length === 1 && parsedValue !== options.options[0][options.optionValue || this.optionValue || 'id']) {
+                if (parsedValue !== null && options.options && options.options.length === 1 && parsedValue !== options.options[0][options.optionValue || this.optionValue || 'id']) {
                     const clonedValues = cloneDeep(formik.values);
                     const changedValues = setNestedObject(clonedValues, options.field, options.options[0][options.optionValue || this.optionValue || 'id']);
+                    console.log("The changed values are: ", changedValues);
                     formik.setValues(changedValues);
                     if (onChangeCallback)
                         onChangeCallback(options.field, options.options[0][options.optionValue || this.optionValue || 'id']);

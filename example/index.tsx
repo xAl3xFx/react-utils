@@ -13,7 +13,8 @@ import {Button} from "primereact/button";
 
 const App = () => {
     const initialValues = {
-        age: []
+        age: [],
+        name: undefined
     }
 
     const options : IDropdownOption[] = [
@@ -58,8 +59,6 @@ const App = () => {
     ]
 
     UtilService.setIntlFormatter(({id}) => id);
-    UtilService.setOptionValue('value');
-    UtilService.setOptionLabel('label');
 
     const formik = useFormik({
         initialValues,
@@ -74,9 +73,14 @@ const App = () => {
         options: options,
     }
 
-    const name: FormElementValues<'text'> = {
-        type: "text",
+    const name: FormElementValues<'dropdown'> = {
+        type: "dropdown",
         label: "name",
+        options: [
+            // {key: 1, description: "asdf", id: 1},
+            {key: 2, description: "fffff", id: 2}
+            ],
+        props: {showClear: true}
     }
 
     const {generateDropdownField} = UtilService.fieldUtils(formik);
@@ -85,9 +89,6 @@ const App = () => {
         name
     }
 
-    const filedChangeCallback = (field: string, value: any) => {
-        console.log("CALLBACK", field, value);
-    }
     return (
         <div className={'p-mt-3'}>
                 <DynamicForm
@@ -97,7 +98,6 @@ const App = () => {
                     onCreate={() => Promise.resolve(true)}
                     onUpdate={() => Promise.resolve(true)}
                     isUpdate={false}
-                    onFieldChangeCallback={filedChangeCallback}
                     onCancelUpdate={() => 0} />
             </div>
     )
