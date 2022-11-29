@@ -10,24 +10,73 @@ import {DynamicForm} from "../src";
 import {FormElementValues} from "../src";
 import {IDropdownOption} from "../src/util-service";
 import {Button} from "primereact/button";
+import {useEffect, useState} from "react";
+
+const age: FormElementValues<'dropdown'> = {
+    type: 'dropdown',
+    label: 'age',
+    options: [],
+}
+
+let name: FormElementValues<'dropdown'> = {
+    type: "dropdown",
+    label: "name",
+    options: [],
+    props: {showClear: true}
+}
 
 const App = () => {
     const initialValues = {
-        age: [],
+        age: undefined,
         name: undefined
     }
 
-    const options : IDropdownOption[] = [
+    const [formElements, setFormElements] = useState({age, name});
+    const [selectedAge, setSelectedAge] = useState<number>();
+    const [formData, setFormData] = useState({...initialValues});
+
+    useEffect(() => {
+        const tempFormElements = {...formElements};
+        tempFormElements.age.options =  ageOptions;
+        setFormElements(tempFormElements);
+    }, []);
+
+    useEffect(() => {
+        const tempFormElements = {...formElements};
+        if(selectedAge !== undefined){
+            setTimeout(() => {
+                tempFormElements.name.options = nameOptions1;
+                console.log("Setting options for name", tempFormElements);
+                setFormElements(tempFormElements);
+            }, 2000);
+        }
+
+        tempFormElements.name.options = [];
+        console.log("Setting formElements : ", tempFormElements)
+        setFormElements(tempFormElements);
+    }, [selectedAge]);
+
+
+
+    const ageOptions : IDropdownOption[] = [
         {
             key: 1,
-            label: '1',
-            value: 1
+            description: '1',
+            id: 1
         },
         {
-            value: 2,
-            label: '2',
-            key: 2
+            key: 2,
+            description: '2',
+            id: 2
         },
+    ]
+
+    const nameOptions1 : IDropdownOption[] = [
+        {key: 1, description: "asdf", id: 1},
+    ]
+
+    const nameOptions2 : IDropdownOption[] = [
+        {key: 1, description: "asdf2", id: 1},
     ]
 
     const options2 : IDropdownOption[] = [
@@ -67,37 +116,29 @@ const App = () => {
         }
     })
 
-    const age: FormElementValues<'dropdown'> = {
-        type: 'dropdown',
-        label: 'age',
-        options: options,
+
+    const handleFieldChange = (field: string, value: any) => {
+        if(field === "age") setSelectedAge(value);
     }
 
-    const name: FormElementValues<'dropdown'> = {
-        type: "dropdown",
-        label: "name",
-        options: [
-            // {key: 1, description: "asdf", id: 1},
-            {key: 2, description: "fffff", id: 2}
-            ],
-        props: {showClear: true}
+    const handleFormReset = () => {
+        setFormData({...initialValues});
+        setSelectedAge(undefined);
     }
 
     const {generateDropdownField} = UtilService.fieldUtils(formik);
-    const formElements = {
-        age,
-        name
-    }
 
     return (
         <div className={'p-mt-3'}>
                 <DynamicForm
                     formElements={formElements}
-                    initialValues={initialValues}
+                    initialValues={formData}
                     fieldOrder={['age', 'name']}
                     onCreate={() => Promise.resolve(true)}
                     onUpdate={() => Promise.resolve(true)}
                     isUpdate={false}
+                    onFieldChangeCallback={handleFieldChange}
+                    onFormReset={handleFormReset}
                     onCancelUpdate={() => 0} />
             </div>
     )
