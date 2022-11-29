@@ -152,6 +152,7 @@ export const DynamicForm = <T extends FormikValues, >(
     } = UtilService.fieldUtils(formik, props.onFieldChangeCallback);
 
     const generateForm = useMemo(() => {
+        //@ts-ignore
         return props.fieldOrder.map((key) => {
             let el;
             if (props.customElements && props.customElements[key]) {
