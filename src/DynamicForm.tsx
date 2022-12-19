@@ -151,7 +151,7 @@ export const DynamicForm = <T extends FormikValues, >(
         generatePasswordField
     } = UtilService.fieldUtils(formik, props.onFieldChangeCallback);
 
-    const generateForm = useMemo(() => {
+    const generateForm = () => {
         //@ts-ignore
         return props.fieldOrder.map((key) => {
             let el;
@@ -202,9 +202,8 @@ export const DynamicForm = <T extends FormikValues, >(
             }
 
             return <div key={String(key)} className={props.rowClassName}>{el}</div>
-
         })
-    }, [formik.values, props]);
+    }
 
     const childrenWithFormik = React.Children.map(props.children, child => {
         if (React.isValidElement(child)) {
@@ -218,7 +217,7 @@ export const DynamicForm = <T extends FormikValues, >(
         <form ref={(ref) => formRef.current = ref} onSubmit={formik.handleSubmit}
               style={{...props.className, overflow: 'hidden'}}>
             <div className={'p-grid p-fluid p-mt-3 p-p-1'}>
-                {generateForm}
+                {generateForm()}
                 {childrenWithFormik}
             </div>
             <FormButtons className={props.formButtonsClassName} isUpdate={props.isUpdate} onResetForm={resetForm}

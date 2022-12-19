@@ -23,8 +23,9 @@ const parseNestedObject = (object: any, key: string | number | symbol) => {
     for (let currentKey of key.toString().split('.')) {
         if (res && res.hasOwnProperty(currentKey))
             res = res[currentKey]
-        else
-            return null
+        else {
+            return null;
+        }
     }
     return res;
 }

@@ -11,6 +11,7 @@ import {FormElementValues} from "../src";
 import {IDropdownOption} from "../src/util-service";
 import {Button} from "primereact/button";
 import {useEffect, useState} from "react";
+import {validationSchema} from "./validation";
 
 const age: FormElementValues<'dropdown'> = {
     type: 'dropdown',
@@ -23,6 +24,11 @@ let name: FormElementValues<'dropdown'> = {
     label: "name",
     options: [],
     props: {showClear: true}
+}
+
+export interface TestCreate {
+    name: string;
+    age: number;
 }
 
 const App = () => {
@@ -44,16 +50,12 @@ const App = () => {
     useEffect(() => {
         const tempFormElements = {...formElements};
         if(selectedAge !== undefined){
-            setTimeout(() => {
-                tempFormElements.name.options = nameOptions1;
-                console.log("Setting options for name", tempFormElements);
-                setFormElements(tempFormElements);
-            }, 2000);
+            tempFormElements.name.options = nameOptions1;
+            setFormElements(tempFormElements);
+        }else {
+            tempFormElements.name.options = [];
+            setFormElements(tempFormElements);
         }
-
-        tempFormElements.name.options = [];
-        console.log("Setting formElements : ", tempFormElements)
-        setFormElements(tempFormElements);
     }, [selectedAge]);
 
 
@@ -139,6 +141,7 @@ const App = () => {
                     isUpdate={false}
                     onFieldChangeCallback={handleFieldChange}
                     onFormReset={handleFormReset}
+                    validationSchema={validationSchema}
                     onCancelUpdate={() => 0} />
             </div>
     )

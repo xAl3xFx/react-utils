@@ -11,6 +11,7 @@
     "formik": "^2.2.9",
     "primeicons": "^5.0.0",
     "primereact": "^8.5.0",
+    "yup": "^0.32.11",
     "react-app-polyfill": "^1.0.0",
     "react-transition-group": "^4.4.5"
   },
