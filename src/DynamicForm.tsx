@@ -203,7 +203,7 @@ export const DynamicForm = <T extends FormikValues, >(
 
             return <div key={String(key)} className={props.rowClassName}>{el}</div>
         })
-    }, [formik.values, props, formik.errors, formik.touched]);
+    }, [formik.touched, formik.values, props.formElements, props.fieldOrder]);
 
     const childrenWithFormik = React.Children.map(props.children, child => {
         if (React.isValidElement(child)) {
