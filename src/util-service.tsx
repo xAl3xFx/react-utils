@@ -133,6 +133,7 @@ export class UtilService {
         const [_, getFormErrorMessage] = this.formikUtils(formik);
 
         const generateTextField = (options: TextFieldOptions) => {
+            // console.log('generateTextField for field "' + options.field + '"');
             return <>
                 <div className="p-field">
                 <span className="p-float-label">
@@ -150,6 +151,7 @@ export class UtilService {
         }
 
         const generatePasswordField = (options: PasswordFieldProps) => {
+            // console.log('generatePasswordField for field "' + options.field + '"');
             return <>
                 <div className="p-field">
                 <span className="p-float-label">
@@ -166,6 +168,7 @@ export class UtilService {
         }
 
         const generateNumberField = (options: NumberFieldOptions) => {
+            // console.log('generateNumberField for field "' + options.field + '"');
             return <>
                 <div className="p-field">
             <span className="p-float-label">
@@ -183,6 +186,7 @@ export class UtilService {
         }
 
         const generateDropdownField = (options: DropdownFieldOptions) => {
+            // console.log('generateDropdownField for field "' + options.field + '"');
             if (options.selectIfSingle) {
                 const parsedValue = parseNestedObject(formik.values, options.field);
                 if (parsedValue !== null && options.options && options.options.length === 1 && parsedValue !== options.options[0][options.optionValue || this.optionValue || 'id']) {
@@ -243,6 +247,7 @@ export class UtilService {
         }
 
         const generateMultiselectField = (options: MultiselectFieldOptions) => {
+            // console.log('generateMultiselectField for field "' + options.field + '"');
             if (options.button !== undefined) {
                 return <>
                     <div className="p-field">
@@ -295,6 +300,7 @@ export class UtilService {
         }
 
         const generateCalendarField = (options: CalendarFieldProps) => {
+            // console.log('generateCalendarField for field "' + options.field + '"');
             return <>
                 <div className="p-field">
                 <span className="p-float-label">

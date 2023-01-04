@@ -78,12 +78,15 @@ interface Props<T> {
     optionValue?: string;
     disableSaveButton?: boolean;
     disableSaveButtonIfErrors?: boolean;
+    showButtons: boolean;
 }
 
 export const DynamicForm = <T extends FormikValues, >(
     props: Props<T>
 ) => {
     const formRef = useRef<HTMLFormElement | null>();
+    const didMountRef = useRef(false);
+    // const [formFields, setFormFields] = useState<any>(null);
 
     const resetForm = () => {
         if (!props.isUpdate)
@@ -113,8 +116,11 @@ export const DynamicForm = <T extends FormikValues, >(
             });
         },)
 
-    }, [props.isUpdate, formRef.current])
+    }, [props.isUpdate, formRef.current]);
 
+    // useEffect(() => {
+    //     console.log('DynamicForm: Updated');
+    // });
 
     const formik = useFormik({
         initialValues: {...props.initialValues},
@@ -142,7 +148,7 @@ export const DynamicForm = <T extends FormikValues, >(
         if (props.setFormikRef) {
             props.setFormikRef(formik);
         }
-    }, [formik])
+    }, [formik]);
 
     const {
         generateTextField,
@@ -153,7 +159,68 @@ export const DynamicForm = <T extends FormikValues, >(
         generatePasswordField
     } = UtilService.fieldUtils(formik, props.onFieldChangeCallback);
 
+    //TODO: If need to optimize try this first
+    // useEffect(() => {
+    //     if(props.fieldOrder && props.fieldOrder.length > 0 && !didMountRef.current){
+    //         didMountRef.current = true;
+    //         const formFields = props.fieldOrder.map((key) => {
+    //             let el;
+    //             if (props.customElements && props.customElements[key]) {
+    //                 el = props.customElements[key](formik);
+    //                 return <div key={String(key)} className={props.rowClassName}>{el}</div>
+    //             }
+    //
+    //             const label = props.formElements[key].label;
+    //             const elProps = props.formElements[key].props;
+    //             switch (props.formElements[key].type) {
+    //                 case "text": {
+    //                     console.log('calling generateTextField')
+    //                     //@ts-ignore
+    //                     el = generateTextField({field: key, label, props: elProps});
+    //                     break;
+    //                 }
+    //                 case "number": {
+    //                     //@ts-ignore
+    //                     el = generateNumberField({field: key, label, props: elProps});
+    //                     break;
+    //                 }
+    //                 case "calendar": {
+    //                     //@ts-ignore
+    //                     el = generateCalendarField({field: key, label, props: elProps});
+    //                     break;
+    //                 }
+    //                 case "dropdown": {
+    //                     if(key === "siteId") {
+    //                     }
+    //                     //@ts-ignore
+    //                     el = generateDropdownField({field: key, label, options: props.formElements[key].options, props: {...elProps, filter: true}, selectIfSingle: true, optionValue: props.optionValue, optionLabel: props.optionLabel, button: props.formElements[key].button});
+    //                     // el = generateDropdownField(key, label, props.formElements[key].options, elProps, undefined, true);
+    //                     break;
+    //                 }
+    //                 case "multiselect": {
+    //                     //@ts-ignore
+    //                     el = generateMultiselectField({field: key, label, options: props.formElements[key].options, elProps, optionValue: props.optionValue, optionLabel: props.optionLabel, button: props.formElements[key].button});
+    //                     break;
+    //                 }
+    //                 case "password": {
+    //                     //@ts-ignore
+    //                     el = generatePasswordField({field: key, label, options: props.formElements[key].options, elProps});
+    //                     break;
+    //                 }
+    //                 default: {
+    //                     el = null;
+    //                 }
+    //             }
+    //
+    //             return <div key={String(key)} className={props.rowClassName}>{el}</div>
+    //         });
+    //         setFormFields(formFields);
+    //     }
+    // }, [props.fieldOrder]);
+
+
     const generateForm = useMemo(() => {
+        // console.log('DynamicForm: generateForm called');
         //@ts-ignore
         return props.fieldOrder.map((key) => {
             let el;
@@ -216,25 +283,26 @@ export const DynamicForm = <T extends FormikValues, >(
     });
 
     return <>
-        {Object.keys(formik.errors).length} errors
         <form ref={(ref) => formRef.current = ref} onSubmit={formik.handleSubmit}
               style={{...props.className, overflow: 'hidden'}}>
             <div className={'p-grid p-fluid p-mt-3 p-p-1'}>
                 {generateForm}
                 {childrenWithFormik}
             </div>
-            <FormButtons className={props.formButtonsClassName} isUpdate={props.isUpdate} onResetForm={resetForm}
+            {props.showButtons && <FormButtons className={props.formButtonsClassName} isUpdate={props.isUpdate} onResetForm={resetForm}
                          saveButtonLabel={props.saveButtonLabel}
                          disableSaveButton={props.disableSaveButton}
                          disableSaveButtonIfErrors={props.disableSaveButtonIfErrors ? Object.keys(formik.errors).length > 0 : false}
                          cancelUpdateButtonLabel={props.cancelUpdateButtonLabel}
                          clearButtonLabel={props.clearButtonLabel}
                          updateButtonLabel={props.updateButtonLabel}
-                         position={props.formButtonsPosition} onCancelUpdate={props.onCancelUpdate}/>
+                         position={props.formButtonsPosition} onCancelUpdate={props.onCancelUpdate}
+            />}
         </form>
     </>
 };
 
 DynamicForm.defaultProps = {
-    rowClassName: 'p-col-12 p-md-4'
+    rowClassName: 'p-col-12 p-md-4',
+    showButtons: true
 }
