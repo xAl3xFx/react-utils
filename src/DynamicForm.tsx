@@ -78,7 +78,7 @@ interface Props<T> {
     optionValue?: string;
     disableSaveButton?: boolean;
     disableSaveButtonIfErrors?: boolean;
-    showButtons: boolean;
+    hideButtons?: boolean;
 }
 
 export const DynamicForm = <T extends FormikValues, >(
@@ -289,7 +289,7 @@ export const DynamicForm = <T extends FormikValues, >(
                 {generateForm}
                 {childrenWithFormik}
             </div>
-            {props.showButtons && <FormButtons className={props.formButtonsClassName} isUpdate={props.isUpdate} onResetForm={resetForm}
+            {props.hideButtons && <FormButtons className={props.formButtonsClassName} isUpdate={props.isUpdate} onResetForm={resetForm}
                          saveButtonLabel={props.saveButtonLabel}
                          disableSaveButton={props.disableSaveButton}
                          disableSaveButtonIfErrors={props.disableSaveButtonIfErrors ? Object.keys(formik.errors).length > 0 : false}
@@ -303,6 +303,5 @@ export const DynamicForm = <T extends FormikValues, >(
 };
 
 DynamicForm.defaultProps = {
-    rowClassName: 'p-col-12 p-md-4',
-    showButtons: true
+    rowClassName: 'p-col-12 p-md-4'
 }

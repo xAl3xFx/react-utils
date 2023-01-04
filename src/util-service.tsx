@@ -168,11 +168,10 @@ export class UtilService {
         }
 
         const generateNumberField = (options: NumberFieldOptions) => {
-            // console.log('generateNumberField for field "' + options.field + '"');
             return <>
                 <div className="p-field">
             <span className="p-float-label">
-                <InputNumber name={options.field} value={formik.values[options.field]}
+                <InputNumber name={options.field} {...formik.getFieldProps(options.field)}
                              onValueChange={e => {
                                  if (onChangeCallback)
                                      onChangeCallback(options.field, e.value);

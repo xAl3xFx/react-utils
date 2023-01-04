@@ -5,6 +5,7 @@ import {FieldArray, FieldArrayRenderProps, FormikProvider} from "formik";
 import {Message} from "primereact/message";
 import {CreateContactPersonRequest, IDropdownOption} from "./types";
 import {DynamicForm, FormElementValues, UtilService} from "../src";
+import {DynamicFieldset} from "../src/DynamicFieldset";
 
 interface Props {
     legend: string;
@@ -51,10 +52,11 @@ export const PaymentFieldset: React.FC<Props> = props => {
             options: payedOptions
         }
 
-        return <DynamicForm fieldOrder={['dueDate', 'amount', 'paid']} onCancelUpdate={() => 0}
-                            onCreate={() => Promise.resolve(true)}
-                            initialValues={{dueDate: undefined, amount: 0, paid: 0}} onUpdate={() => Promise.resolve(true)} isUpdate={false}
-                            formElements={{dueDate, amount, paid}}/>
+        return <DynamicFieldset
+                            key={key}
+                            fieldOrder={[`payments.${key}.dueDate`, `payments.${key}.amount`, `payments.${key}.paid`]}
+                            formik={props.formik}
+                            formElements={{[`payments.${key}.dueDate`]: dueDate, [`payments.${key}.amount`]: amount, [`payments.${key}.paid`]: paid}}/>
     }
 
     const fieldsetLegend = (arrayHelper: FieldArrayRenderProps) => <div className={'p-d-flex p-ai-center'}>
