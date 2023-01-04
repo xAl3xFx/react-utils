@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {useEffect, useState, useRef} from 'react';
+import {useEffect, useState, useRef, useCallback, useMemo} from 'react';
 import {InputTextProps} from "primereact/inputtext";
 import {DropdownProps} from "primereact/dropdown";
 import {CalendarProps} from "primereact/calendar";
@@ -139,7 +139,9 @@ export const DynamicForm = <T extends FormikValues, >(
     });
 
     useEffect(() => {
-        if (props.setFormikRef) props.setFormikRef(formik);
+        if (props.setFormikRef) {
+            props.setFormikRef(formik);
+        }
     }, [formik])
 
     const {
@@ -151,7 +153,7 @@ export const DynamicForm = <T extends FormikValues, >(
         generatePasswordField
     } = UtilService.fieldUtils(formik, props.onFieldChangeCallback);
 
-    const generateForm = () => {
+    const generateForm = useMemo(() => {
         //@ts-ignore
         return props.fieldOrder.map((key) => {
             let el;
@@ -179,6 +181,8 @@ export const DynamicForm = <T extends FormikValues, >(
                     break;
                 }
                 case "dropdown": {
+                    if(key === "siteId") {
+                    }
                     //@ts-ignore
                     el = generateDropdownField({field: key, label, options: props.formElements[key].options, props: {...elProps, filter: true}, selectIfSingle: true, optionValue: props.optionValue, optionLabel: props.optionLabel, button: props.formElements[key].button});
                     // el = generateDropdownField(key, label, props.formElements[key].options, elProps, undefined, true);
@@ -200,9 +204,8 @@ export const DynamicForm = <T extends FormikValues, >(
             }
 
             return <div key={String(key)} className={props.rowClassName}>{el}</div>
-
         })
-    }
+    }, [formik.touched, formik.values, props.formElements, props.fieldOrder]);
 
     const childrenWithFormik = React.Children.map(props.children, child => {
         if (React.isValidElement(child)) {
@@ -217,7 +220,7 @@ export const DynamicForm = <T extends FormikValues, >(
         <form ref={(ref) => formRef.current = ref} onSubmit={formik.handleSubmit}
               style={{...props.className, overflow: 'hidden'}}>
             <div className={'p-grid p-fluid p-mt-3 p-p-1'}>
-                {generateForm()}
+                {generateForm}
                 {childrenWithFormik}
             </div>
             <FormButtons className={props.formButtonsClassName} isUpdate={props.isUpdate} onResetForm={resetForm}
