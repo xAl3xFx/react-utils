@@ -1,20 +1,23 @@
 import * as React from 'react';
 import {useEffect, useState, useRef, useMemo} from 'react';
 import {UtilService} from "./util-service";
+import {FormElement} from "./DynamicForm";
+import {FormikValues} from "formik";
 
-interface Props {
-    data: any;
-    fieldOrder: string[];
+interface Props<T> {
+    fieldOrder: (keyof T)[] | string[];
     formik: any;
     onFieldChangeCallback?: (field: string, value: any) => void;
-    formElements: any;
-    customElements: any;
-    rowClassName: string;
+    formElements: FormElement<T>;
+    customElements?: { [key in keyof Partial<T> | string]: (formik: any) => JSX.Element };
+    rowClassName?: string;
     optionValue?: string;
     optionLabel?: string;
 }
 
-export const DynamicFieldset: React.FC<Props> = props => {
+export const DynamicFieldset = <T extends FormikValues, >(
+    props: Props<T>
+) => {
     const didMountRef = useRef(false);
 
     useEffect(() => {
@@ -62,29 +65,12 @@ export const DynamicFieldset: React.FC<Props> = props => {
                 }
                 case "dropdown": {
                     //@ts-ignore
-                    el = generateDropdownField({
-                        field: key,
-                        label,
-                        options: props.formElements[key].options,
-                        props: {...elProps, filter: true},
-                        selectIfSingle: true,
-                        optionValue: props.optionValue,
-                        optionLabel: props.optionLabel,
-                        button: props.formElements[key].button
-                    });
+                    el = generateDropdownField({field: key, label, options: props.formElements[key].options, props: {...elProps, filter: true}, selectIfSingle: true, optionValue: props.optionValue, optionLabel: props.optionLabel, button: props.formElements[key].button});
                     break;
                 }
                 case "multiselect": {
                     //@ts-ignore
-                    el = generateMultiselectField({
-                        field: key,
-                        label,
-                        options: props.formElements[key].options,
-                        //@ts-ignore
-                        elProps,
-                        optionValue: props.optionValue,
-                        optionLabel: props.optionLabel,
-                        button: props.formElements[key].button
+                    el = generateMultiselectField({field: key, label, options: props.formElements[key].options, elProps, optionValue: props.optionValue, optionLabel: props.optionLabel, button: props.formElements[key].button
                     });
                     break;
                 }
