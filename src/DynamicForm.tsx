@@ -76,6 +76,8 @@ interface Props<T> {
     clearButtonLabel?: string;
     optionLabel?: string;
     optionValue?: string;
+    disableSaveButton?: boolean;
+    disableSaveButtonIfErrors?: boolean;
 }
 
 export const DynamicForm = <T extends FormikValues, >(
@@ -211,6 +213,7 @@ export const DynamicForm = <T extends FormikValues, >(
     });
 
     return <>
+        {Object.keys(formik.errors).length} errors
         <form ref={(ref) => formRef.current = ref} onSubmit={formik.handleSubmit}
               style={{...props.className, overflow: 'hidden'}}>
             <div className={'p-grid p-fluid p-mt-3 p-p-1'}>
@@ -219,6 +222,8 @@ export const DynamicForm = <T extends FormikValues, >(
             </div>
             <FormButtons className={props.formButtonsClassName} isUpdate={props.isUpdate} onResetForm={resetForm}
                          saveButtonLabel={props.saveButtonLabel}
+                         disableSaveButton={props.disableSaveButton}
+                         disableSaveButtonIfErrors={props.disableSaveButtonIfErrors ? Object.keys(formik.errors).length > 0 : false}
                          cancelUpdateButtonLabel={props.cancelUpdateButtonLabel}
                          clearButtonLabel={props.clearButtonLabel}
                          updateButtonLabel={props.updateButtonLabel}

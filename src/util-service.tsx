@@ -18,13 +18,17 @@ interface IDropdownOptionBase {
 
 export type IDropdownOption = IDropdownOptionBase & { [key: string]: any }
 
-const parseNestedObject = (object: any, key: string | number | symbol) => {
+const parseNestedObject = (object: any, key: string | number | symbol, test?: string) => {
+    if(test) console.log(test)
     let res = object;
+
     for (let currentKey of key.toString().split('.')) {
-        if (res[currentKey] !== undefined)
+        if (res && res.hasOwnProperty(currentKey))
             res = res[currentKey]
-        else
-            return undefined
+        else {
+            console.log("Returning null: " , object, key);
+            return null;
+        }
     }
     return res;
 }
@@ -33,15 +37,13 @@ const setNestedObject = (object: any, key: string | number | symbol, value: any)
     let res = object;
     let tokens = key.toString().split('.');
     for (let i = 0; i < tokens.length; i++) {
-
-        if (res[tokens[i]] !== undefined) {
+        if(res && res.hasOwnProperty(tokens[i])){
             if (i === tokens.length - 1) {
                 res[tokens[i]] = value;
             } else {
                 res = res[tokens[i]];
             }
-        } else
-            return undefined
+        }else return undefined
     }
     return object;
 }

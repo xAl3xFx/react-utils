@@ -10,24 +10,62 @@ import {DynamicForm} from "../src";
 import {FormElementValues} from "../src";
 import {IDropdownOption} from "../src/util-service";
 import {Button} from "primereact/button";
+import {useEffect, useState} from "react";
+import {validationSchema} from "./validation";
+
+export interface TestCreate {
+    age: number;
+    name?: string;
+}
+
+const age: FormElementValues<'dropdown'> = {
+    type: 'dropdown',
+    label: 'age',
+    options: [],
+}
+
+let name: FormElementValues<'text'> = {
+    type: "text",
+    label: "name",
+}
+
+const initialValues = {
+    age: undefined,
+    name: ""
+}
 
 const App = () => {
-    const initialValues = {
-        age: [1],
-        cal: new Date()
-    }
 
-    const options : IDropdownOption[] = [
+
+    const [formElements, setFormElements] = useState({age, name});
+    const [selectedAge, setSelectedAge] = useState<number>();
+    const [formData, setFormData] = useState({...initialValues});
+
+    useEffect(() => {
+        const tempFormElements = {...formElements};
+        tempFormElements.age.options =  ageOptions;
+        setFormElements(tempFormElements);
+    }, []);
+
+    const ageOptions : IDropdownOption[] = [
         {
             key: 1,
-            label: '1',
-            value: 1
+            description: '1',
+            id: 1
         },
         {
-            value: 2,
-            label: '2',
-            key: 2
+            key: 2,
+            description: '2',
+            id: 2
         },
+    ]
+
+    const nameOptions1 : IDropdownOption[] = [
+        {key: 1, description: "asdf", id: 1},
+    ]
+
+    const nameOptions2 : IDropdownOption[] = [
+        {key: 1, description: "asdf2", id: 1},
     ]
 
     const options2 : IDropdownOption[] = [
@@ -59,8 +97,6 @@ const App = () => {
     ]
 
     UtilService.setIntlFormatter(({id}) => id);
-    UtilService.setOptionValue('value')
-    UtilService.setOptionLabel('label')
 
     const formik = useFormik({
         initialValues,
@@ -69,30 +105,33 @@ const App = () => {
         }
     })
 
-    const age: FormElementValues<'multiselect'> = {
-        type: 'multiselect',
-        label: 'age',
-        options: options2,
-        button: <Button icon={'pi pi-plus'} />
+
+    const handleFieldChange = (field: string, value: any) => {
+        if(field === "age") setSelectedAge(value);
     }
 
-
-    const cal: FormElementValues<'calendar'> = {
-        type: 'calendar',
-        label: 'date',
+    const handleFormReset = () => {
+        setFormData({...initialValues});
+        setSelectedAge(undefined);
     }
 
     const {generateDropdownField} = UtilService.fieldUtils(formik);
-    const formElements = {
-        age,
-        cal
-    }
+
     return (
-            <DynamicForm formElements={formElements} initialValues={initialValues} fieldOrder={['age', 'cal']}
-                         optionLabel={'kur'}
-                         onCreate={() => Promise.resolve(true)} onUpdate={() => Promise.resolve(true)} isUpdate={false}
-                         onCancelUpdate={() => 0}/>
-    );
+        <div className={'p-mt-3'}>
+                <DynamicForm
+                    formElements={formElements}
+                    initialValues={formData}
+                    fieldOrder={['age', 'name']}
+                    onCreate={() => Promise.resolve(true)}
+                    onUpdate={() => Promise.resolve(true)}
+                    isUpdate={false}
+                    onFieldChangeCallback={handleFieldChange}
+                    onFormReset={handleFormReset}
+                    validationSchema={validationSchema}
+                    onCancelUpdate={() => 0} />
+            </div>
+    )
 };
 
 ReactDOM.render(<App/>, document.getElementById('root'));

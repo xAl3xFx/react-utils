@@ -14,6 +14,8 @@ interface Props {
     updateButtonLabel?: string;
     cancelUpdateButtonLabel?: string;
     clearButtonLabel?: string;
+    disableSaveButton?: boolean;
+    disableSaveButtonIfErrors?: boolean;
 
 }
 
@@ -50,7 +52,7 @@ export const FormButtons: React.FC<Props> = props => {
     return <>
         <div className={`p-grid p-justify-${props.position} p-fluid`}>
             <div className={props.className}>
-                <Button type={'submit'} label={getSubmitButtonLabel()}/>
+                <Button type={'submit'} label={getSubmitButtonLabel()} disabled={props.disableSaveButton || props.disableSaveButtonIfErrors}/>
             </div>
             <div className={props.className}>
                 <Button type="button" onClick={props.onResetForm} label={getResetButtonLabel()}/>
