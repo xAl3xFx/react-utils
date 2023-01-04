@@ -168,10 +168,11 @@ export class UtilService {
         }
 
         const generateNumberField = (options: NumberFieldOptions) => {
+            const parsedValue = parseNestedObject(formik.values, options.field);
             return <>
                 <div className="p-field">
             <span className="p-float-label">
-                <InputNumber name={options.field} {...formik.getFieldProps(options.field)}
+                <InputNumber name={options.field} value={parsedValue}
                              onValueChange={e => {
                                  if (onChangeCallback)
                                      onChangeCallback(options.field, e.value);

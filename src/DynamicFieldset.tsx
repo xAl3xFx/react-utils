@@ -95,3 +95,7 @@ export const DynamicFieldset = <T extends FormikValues, >(
         </div>
     </>
 };
+
+DynamicFieldset.defaultProps = {
+    rowClassName: 'p-col-12 p-md-4'
+}
