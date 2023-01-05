@@ -79,6 +79,7 @@ interface Props<T> {
     disableSaveButton?: boolean;
     disableSaveButtonIfErrors?: boolean;
     hideButtons?: boolean;
+    formGridClassName?: string;
 }
 
 export const DynamicForm = <T extends FormikValues, >(
@@ -285,7 +286,7 @@ export const DynamicForm = <T extends FormikValues, >(
     return <>
         <form ref={(ref) => formRef.current = ref} onSubmit={formik.handleSubmit}
               style={{...props.className, overflow: 'hidden'}}>
-            <div className={'p-grid p-fluid p-mt-3 p-p-1'}>
+            <div className={props.formGridClassName || 'p-grid p-fluid p-mt-3 p-p-1'}>
                 {generateForm}
                 {childrenWithFormik}
             </div>
