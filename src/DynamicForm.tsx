@@ -289,7 +289,7 @@ export const DynamicForm = <T extends FormikValues, >(
                 {generateForm}
                 {childrenWithFormik}
             </div>
-            {props.hideButtons && <FormButtons className={props.formButtonsClassName} isUpdate={props.isUpdate} onResetForm={resetForm}
+            {!props.hideButtons && <FormButtons className={props.formButtonsClassName} isUpdate={props.isUpdate} onResetForm={resetForm}
                          saveButtonLabel={props.saveButtonLabel}
                          disableSaveButton={props.disableSaveButton}
                          disableSaveButtonIfErrors={props.disableSaveButtonIfErrors ? Object.keys(formik.errors).length > 0 : false}
