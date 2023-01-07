@@ -13,6 +13,7 @@ interface Props<T> {
     rowClassName?: string;
     optionValue?: string;
     optionLabel?: string;
+    formGridClassName?: string;
 }
 
 export const DynamicFieldset = <T extends FormikValues, >(
@@ -90,7 +91,7 @@ export const DynamicFieldset = <T extends FormikValues, >(
 
 
     return <>
-        <div className={'p-grid p-fluid p-mt-3 p-p-1'}>
+        <div className={props.formGridClassName || 'p-grid p-fluid p-mt-3 p-p-1'}>
             {generateForm}
         </div>
     </>
