@@ -13,7 +13,6 @@ import {Button} from "primereact/button";
 import {useEffect, useState} from "react";
 import {validationSchema} from "./validation";
 import {ManyFieldsForm} from "./ManyFieldsForm";
-import {ManyInputsTest} from "../src/ManyInputsTest";
 
 export interface TestCreate {
     age: number;

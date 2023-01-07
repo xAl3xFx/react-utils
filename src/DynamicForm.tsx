@@ -80,6 +80,7 @@ interface Props<T> {
     disableSaveButtonIfErrors?: boolean;
     hideButtons?: boolean;
     formGridClassName?: string;
+    scrollToForm?: boolean;
 }
 
 export const DynamicForm = <T extends FormikValues, >(
@@ -103,7 +104,7 @@ export const DynamicForm = <T extends FormikValues, >(
     }, [props.initialValues]);
 
     useEffect(() => {
-        if (!props.isUpdate || !formRef.current) return;
+        if (!props.isUpdate || !formRef.current || !props.scrollToForm) return;
         setTimeout(() => {
             var element = formRef.current;
             if (!element) return;
@@ -117,7 +118,7 @@ export const DynamicForm = <T extends FormikValues, >(
             });
         },)
 
-    }, [props.isUpdate, formRef.current]);
+    }, [props.isUpdate, formRef.current, props.scrollToForm]);
 
     // useEffect(() => {
     //     console.log('DynamicForm: Updated');
@@ -304,5 +305,6 @@ export const DynamicForm = <T extends FormikValues, >(
 };
 
 DynamicForm.defaultProps = {
-    rowClassName: 'p-col-12 p-md-4'
+    rowClassName: 'p-col-12 p-md-4',
+    scrollToForm: true
 }
