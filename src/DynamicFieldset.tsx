@@ -1,8 +1,9 @@
 import * as React from 'react';
-import {useEffect, useState, useRef, useMemo} from 'react';
+import {useEffect, useMemo, useRef} from 'react';
 import {UtilService} from "./util-service";
 import {FormElement} from "./DynamicForm";
 import {FormikValues} from "formik";
+import {Button} from "primereact/button";
 
 interface Props<T> {
     fieldOrder: (keyof T)[] | string[];
@@ -14,6 +15,9 @@ interface Props<T> {
     optionValue?: string;
     optionLabel?: string;
     formGridClassName?: string;
+    elementKey?: string | number;
+    removeElementHandler?: (key: string | number) => any;
+    removeButtonTooltip?: string;
 }
 
 export const DynamicFieldset = <T extends FormikValues, >(
@@ -38,8 +42,7 @@ export const DynamicFieldset = <T extends FormikValues, >(
 
     const generateForm = useMemo(() => {
         // console.log('DynamicForm: generateForm called');
-        //@ts-ignore
-        return props.fieldOrder.map((key) => {
+        const result = props.fieldOrder.map((key) => {
             let el;
             if (props.customElements && props.customElements[key]) {
                 el = props.customElements[key](props.formik);
@@ -66,12 +69,28 @@ export const DynamicFieldset = <T extends FormikValues, >(
                 }
                 case "dropdown": {
                     //@ts-ignore
-                    el = generateDropdownField({field: key, label, options: props.formElements[key].options, props: {...elProps, filter: true}, selectIfSingle: true, optionValue: props.optionValue, optionLabel: props.optionLabel, button: props.formElements[key].button});
+                    el = generateDropdownField({
+                        field: key,
+                        label,
+                        options: props.formElements[key].options,
+                        props: {...elProps, filter: true},
+                        selectIfSingle: true,
+                        optionValue: props.optionValue,
+                        optionLabel: props.optionLabel,
+                        button: props.formElements[key].button
+                    });
                     break;
                 }
                 case "multiselect": {
                     //@ts-ignore
-                    el = generateMultiselectField({field: key, label, options: props.formElements[key].options, elProps, optionValue: props.optionValue, optionLabel: props.optionLabel, button: props.formElements[key].button
+                    el = generateMultiselectField({
+                        field: key,
+                        label,
+                        options: props.formElements[key].options,
+                        elProps,
+                        optionValue: props.optionValue,
+                        optionLabel: props.optionLabel,
+                        button: props.formElements[key].button
                     });
                     break;
                 }
@@ -87,6 +106,18 @@ export const DynamicFieldset = <T extends FormikValues, >(
 
             return <div key={String(key)} className={props.rowClassName}>{el}</div>
         })
+
+        if (props.removeElementHandler && props.elementKey !== undefined) {
+            result.push(
+                <div key={props.elementKey + '-remove'} className={'p-col-12 p-md-1'}>{<Button
+                    onClick={() => props.removeElementHandler!(props.elementKey!)} type={"button"}
+                    icon={'pi pi-trash'} className={'p-button-danger'}
+                    tooltip={props.removeButtonTooltip}
+                    tooltipOptions={{position: "top"}}/>}</div>
+            )
+        }
+
+        return result;
     }, [props.formik.touched, props.formik.values, props.formElements, props.fieldOrder]);
 
 
@@ -98,5 +129,6 @@ export const DynamicFieldset = <T extends FormikValues, >(
 };
 
 DynamicFieldset.defaultProps = {
-    rowClassName: 'p-col-12 p-md-4'
+    rowClassName: 'p-col-12 p-md-4',
+    removeButtonTooltip: "Премахни"
 }

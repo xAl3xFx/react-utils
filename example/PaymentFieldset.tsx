@@ -51,10 +51,12 @@ export const PaymentFieldset: React.FC<Props> = props => {
             label: "paid",
             options: payedOptions
         }
-
         return <DynamicFieldset
+                            rowClassName={"p-col-12 p-md-4"} formGridClassName={"p-grid p-fluid"}
+                            removeElementHandler={arrayHelper.remove}
+                            elementKey={key}
                             key={key}
-                            fieldOrder={[`payments.${key}.dueDate`, `payments.${key}.amount`, `payments.${key}.paid`]}
+                            fieldOrder={[`payments.${key}.dueDate`, `payments.${key}.amount`]}
                             formik={props.formik}
                             formElements={{[`payments.${key}.dueDate`]: dueDate, [`payments.${key}.amount`]: amount, [`payments.${key}.paid`]: paid}}/>
     }
@@ -70,11 +72,11 @@ export const PaymentFieldset: React.FC<Props> = props => {
                             <Fieldset legend={fieldsetLegend(arrayHelper)} className={'p-col-12'}
                                       style={{margin: '1rem'}}>
                                 {(props.formik.values[props.dataField]?.map((contactPerson: CreateContactPersonRequest, i: number) => generatePaymentItem(contactPerson, i, arrayHelper)))}
-                                {props.formik.errors[props.dataField] ?
-                                    <Message severity="error"
-                                             text={`грешка ${props.formik.values.payments.reduce((acc: any, el: any) => acc + +el.amount, 0)}/${props.formik.values.totalAmount}`}
-                                    />
-                                    : null}
+                                {/*{props.formik.errors[props.dataField] ?*/}
+                                {/*    <Message severity="error"*/}
+                                {/*             text={`грешка ${props.formik.values.payments.reduce((acc: any, el: any) => acc + +el.amount, 0)}/${props.formik.values.totalAmount}`}*/}
+                                {/*    />*/}
+                                {/*    : null}*/}
                             </Fieldset>
                         }/>
         </FormikProvider>

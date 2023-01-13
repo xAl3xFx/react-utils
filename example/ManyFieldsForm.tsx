@@ -63,7 +63,7 @@ export const ManyFieldsForm : React.FC<Props> = props => {
     }
 
     return <>
-        <div className={'p-mt-3'}>
+        <div className={'p-col-12 p-d-flex'}>
             <DynamicForm
                 formElements={formElements}
                 initialValues={formData}
