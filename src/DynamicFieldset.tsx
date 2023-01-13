@@ -4,6 +4,7 @@ import {UtilService} from "./util-service";
 import {FormElement} from "./DynamicForm";
 import {FormikValues} from "formik";
 import {Button} from "primereact/button";
+import {MultiSelectProps} from "primereact/multiselect";
 
 interface Props<T> {
     fieldOrder: (keyof T)[] | string[];
@@ -73,11 +74,14 @@ export const DynamicFieldset = <T extends FormikValues, >(
                     el = generateDropdownField({
                         field: key,
                         label,
+                        //@ts-ignore
                         options: props.formElements[key].options,
+                        //@ts-ignore
                         props: {...elProps, filter: true},
                         selectIfSingle: true,
                         optionValue: props.optionValue,
                         optionLabel: props.optionLabel,
+                        //@ts-ignore
                         button: props.formElements[key].button
                     });
                     break;
@@ -87,10 +91,12 @@ export const DynamicFieldset = <T extends FormikValues, >(
                     el = generateMultiselectField({
                         field: key,
                         label,
+                        //@ts-ignore
                         options: props.formElements[key].options,
-                        elProps,
+                        props: {...elProps as MultiSelectProps},
                         optionValue: props.optionValue,
                         optionLabel: props.optionLabel,
+                        //@ts-ignore
                         button: props.formElements[key].button
                     });
                     break;

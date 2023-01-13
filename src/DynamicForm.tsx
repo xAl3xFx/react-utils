@@ -259,7 +259,7 @@ export const DynamicForm = <T extends FormikValues, >(
                 }
                 case "multiselect": {
                     //@ts-ignore
-                    el = generateMultiselectField({field: key, label, options: props.formElements[key].options, elProps, optionValue: props.optionValue, optionLabel: props.optionLabel, button: props.formElements[key].button});
+                    el = generateMultiselectField({field: key, label, options: props.formElements[key].options, props: {...elProps}, optionValue: props.optionValue, optionLabel: props.optionLabel, button: props.formElements[key].button});
                     break;
                 }
                 case "password": {
