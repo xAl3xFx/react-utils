@@ -42,6 +42,7 @@ export const DynamicFieldset = <T extends FormikValues, >(
 
     const generateForm = useMemo(() => {
         // console.log('DynamicForm: generateForm called');
+        //@ts-ignore
         const result = props.fieldOrder.map((key) => {
             let el;
             if (props.customElements && props.customElements[key]) {
