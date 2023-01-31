@@ -86,9 +86,18 @@ interface Props<T> {
 export const DynamicForm = <T extends FormikValues, >(
     props: Props<T>
 ) => {
+    const [primeflexVersion, setPrimeflexVersion] = useState(UtilService.primeflexVersion);
+
+    const defaultRowClassName = (primeflexVersion === 2 ? "p-col-12 p-md-4" : 'col-12 md:col-4');
+    const defaultFormGridClassName =  (primeflexVersion === 2 ? "p-grid p-fluid p-mt-3 p-p-1" : 'grid p-fluid mt-3 p-1');
+
     const formRef = useRef<HTMLFormElement | null>();
     const didMountRef = useRef(false);
-    // const [formFields, setFormFields] = useState<any>(null);
+
+    useEffect(() => {
+        if(!primeflexVersion) throw new Error("Unspecified primeflex version!");
+    }, []);
+
 
     const resetForm = () => {
         if (!props.isUpdate)
@@ -104,7 +113,7 @@ export const DynamicForm = <T extends FormikValues, >(
     }, [props.initialValues]);
 
     useEffect(() => {
-        if (!props.isUpdate || !formRef.current || !props.scrollToForm) return;
+        if (!props.isUpdate || !formRef.current || props.scrollToForm === false) return;
         setTimeout(() => {
             var element = formRef.current;
             if (!element) return;
@@ -228,7 +237,7 @@ export const DynamicForm = <T extends FormikValues, >(
             let el;
             if (props.customElements && props.customElements[key]) {
                 el = props.customElements[key](formik);
-                return <div key={String(key)} className={props.rowClassName}>{el}</div>
+                return <div key={String(key)} className={props.rowClassName || defaultRowClassName}>{el}</div>
             }
 
             const label = props.formElements[key].label;
@@ -272,7 +281,7 @@ export const DynamicForm = <T extends FormikValues, >(
                 }
             }
 
-            return <div key={String(key)} className={props.rowClassName}>{el}</div>
+            return <div key={String(key)} className={props.rowClassName || defaultRowClassName}>{el}</div>
         })
     }, [formik.touched, formik.values, props.formElements, props.fieldOrder]);
 
@@ -287,7 +296,7 @@ export const DynamicForm = <T extends FormikValues, >(
     return <>
         <form ref={(ref) => formRef.current = ref} onSubmit={formik.handleSubmit}
               style={{...props.className, overflow: 'hidden'}}>
-            <div className={props.formGridClassName || 'p-grid p-fluid p-mt-3 p-p-1'}>
+            <div className={props.formGridClassName || defaultFormGridClassName}>
                 {generateForm}
                 {childrenWithFormik}
             </div>
@@ -304,7 +313,6 @@ export const DynamicForm = <T extends FormikValues, >(
     </>
 };
 
-DynamicForm.defaultProps = {
-    rowClassName: 'p-col-12 p-md-4',
-    scrollToForm: true
-}
+// DynamicForm.defaultProps = {
+//     rowClassName: primeflexVersion === 2 ? "p-col-12 p-md-4" : 'col-12 md:col-4',
+// }

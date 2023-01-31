@@ -21,6 +21,13 @@ interface Props {
 
 export const FormButtons: React.FC<Props> = props => {
     const f = UtilService.intlFormatter;
+
+    const [primeflexVersion, setPrimeflexVersion] = useState(UtilService.primeflexVersion);
+
+    const defaultClassName = (primeflexVersion === 2 ? "p-col-12 p-md-3 p-lg-3 p-xl-2" : 'col-12 md:col-3 lg:col-3 xl:col-2');
+    const wrapperClassName = (primeflexVersion === 2 ? `p-fluid p-grid p-justify-${props.position || "center"}` : `p-fluid grid justify-content-${props.position || "center"}`);
+
+
     const getSubmitButtonLabel = () => {
         if(props.isUpdate){
             if(props.updateButtonLabel){
@@ -37,6 +44,10 @@ export const FormButtons: React.FC<Props> = props => {
         }
     }
 
+    useEffect(() => {
+        if(!primeflexVersion) throw new Error("Unspecified primeflex version!");
+    }, [primeflexVersion]);
+
     const getResetButtonLabel = () => {
         if(props.isUpdate){
             return f({id: 'initialValues'});
@@ -50,17 +61,17 @@ export const FormButtons: React.FC<Props> = props => {
     }
 
     return <>
-        <div className={`p-grid p-justify-${props.position} p-fluid`}>
-            <div className={props.className}>
+        <div className={wrapperClassName}>
+            <div className={props.className || defaultClassName}>
                 <Button type={'submit'} label={getSubmitButtonLabel()} disabled={props.disableSaveButton || props.disableSaveButtonIfErrors}/>
             </div>
-            <div className={props.className}>
+            <div className={props.className || defaultClassName}>
                 <Button type="button" onClick={props.onResetForm} label={getResetButtonLabel()}/>
             </div>
 
             {
                 props.isUpdate &&
-                <div className={props.className}>
+                <div className={props.className || defaultClassName}>
                     <Button type="button" onClick={props.onCancelUpdate} label={props.cancelUpdateButtonLabel || f({id: "cancelChange"})}/>
                 </div>
             }
@@ -71,5 +82,4 @@ export const FormButtons: React.FC<Props> = props => {
 
 FormButtons.defaultProps = {
     position: "center",
-    className: 'p-col-12 p-md-3 p-lg-3 p-xl-2'
 }

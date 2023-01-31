@@ -1,19 +1,16 @@
 import 'react-app-polyfill/ie11';
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client';
 import "primereact/resources/themes/lara-light-indigo/theme.css";  //theme
 import "primereact/resources/primereact.min.css";                  //core css
 import "primeicons/primeicons.css";                                //icons
-import {UtilService} from "../src/util-service";
+import 'primeflex/primeflex.css';
+import {UtilService} from "../src";
 import {useFormik} from "formik";
-import {DynamicForm} from "../src";
 import {FormElementValues} from "../src";
 import {IDropdownOption} from "../src/util-service";
-import {Button} from "primereact/button";
 import {useEffect, useState} from "react";
-import {validationSchema} from "./validation";
-import {ManyFieldsForm} from "./ManyFieldsForm";
-
+const ManyFieldsForm = React.lazy(() => import("./ManyFieldsForm"))
 export interface TestCreate {
     age: number;
     name?: string;
@@ -35,9 +32,11 @@ const initialValues = {
     name: ""
 }
 
+
+UtilService.setIntlFormatter(({id}) => id);
+UtilService.setPrimeflexVersion(2);
+
 const App = () => {
-
-
     const [formElements, setFormElements] = useState({age, name});
     const [selectedAge, setSelectedAge] = useState<number>();
     const [formData, setFormData] = useState({...initialValues});
@@ -97,8 +96,6 @@ const App = () => {
         },
     ]
 
-    UtilService.setIntlFormatter(({id}) => id);
-
     const formik = useFormik({
         initialValues,
         onSubmit: (data) => {
@@ -118,21 +115,14 @@ const App = () => {
 
     const {generateDropdownField} = UtilService.fieldUtils(formik);
 
-    return (
-        <div className={'p-mt-3'}>
-                <DynamicForm
-                    formElements={formElements}
-                    initialValues={formData}
-                    fieldOrder={['age', 'name']}
-                    onCreate={() => Promise.resolve(true)}
-                    onUpdate={() => Promise.resolve(true)}
-                    isUpdate={false}
-                    onFieldChangeCallback={handleFieldChange}
-                    onFormReset={handleFormReset}
-                    validationSchema={validationSchema}
-                    onCancelUpdate={() => 0} />
-            </div>
-    )
+    return <React.Suspense fallback={<></>}><ManyFieldsForm /></React.Suspense>
 };
 
-ReactDOM.render(<ManyFieldsForm />, document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById('root')!);
+root.render(
+    <React.StrictMode>
+        <App/>
+    </React.StrictMode>
+
+)
+

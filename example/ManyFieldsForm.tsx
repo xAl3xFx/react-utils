@@ -32,7 +32,7 @@ const initialPayment: CreatePaymentRequest = {
     installmentSequenceNumber: ""
 }
 
-export const ManyFieldsForm : React.FC<Props> = props => {
+const ManyFieldsForm : React.FC<Props> = props => {
     const didMountRef = useRef(false);
     const [formElements, setFormElements] = useState({numberOfDeposits, totalAmount});
     const [formData, setFormData] = useState({...initialValues});
@@ -63,7 +63,7 @@ export const ManyFieldsForm : React.FC<Props> = props => {
     }
 
     return <>
-        <div className={'p-col-12 p-d-flex'}>
+        <div className={''}>
             <DynamicForm
                 formElements={formElements}
                 initialValues={formData}
@@ -80,3 +80,5 @@ export const ManyFieldsForm : React.FC<Props> = props => {
         </div>
     </>
 };
+
+export default ManyFieldsForm;

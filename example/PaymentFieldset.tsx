@@ -52,7 +52,7 @@ export const PaymentFieldset: React.FC<Props> = props => {
             options: payedOptions
         }
         return <DynamicFieldset
-                            rowClassName={"p-col-12 p-md-4"} formGridClassName={"p-grid p-fluid"}
+                            rowClassName={"p-col-12 p-md-4"} formGridClassName={"p-grid p-fluid p-mt-3"}
                             removeElementHandler={arrayHelper.remove}
                             elementKey={key}
                             key={key}

@@ -104,6 +104,7 @@ export class UtilService {
     public static intlFormatter: any;
     public static optionValue: string;
     public static optionLabel: string;
+    public static primeflexVersion: 2 | 3;
 
     static setIntlFormatter(intlFormatter: any) {
         this.intlFormatter = intlFormatter;
@@ -116,6 +117,12 @@ export class UtilService {
     static setOptionLabel(optionLabel: string) {
         this.optionLabel = optionLabel;
     }
+
+    static setPrimeflexVersion(version: 2 | 3) {
+        this.primeflexVersion = version;
+    }
+
+
 
     static formikUtils(formik: any): [(name: string) => boolean, (name: string) => boolean | JSX.Element] {
 
