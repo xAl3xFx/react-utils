@@ -74,6 +74,7 @@ interface Props<T> {
     updateButtonLabel?: string;
     cancelUpdateButtonLabel?: string;
     clearButtonLabel?: string;
+    clearButtonOnUpdateLabel?: string;
     optionLabel?: string;
     optionValue?: string;
     disableSaveButton?: boolean;
@@ -306,6 +307,7 @@ export const DynamicForm = <T extends FormikValues, >(
                          disableSaveButtonIfErrors={props.disableSaveButtonIfErrors ? Object.keys(formik.errors).length > 0 : false}
                          cancelUpdateButtonLabel={props.cancelUpdateButtonLabel}
                          clearButtonLabel={props.clearButtonLabel}
+                         clearButtonOnUpdateLabel={props.clearButtonOnUpdateLabel}
                          updateButtonLabel={props.updateButtonLabel}
                          position={props.formButtonsPosition} onCancelUpdate={props.onCancelUpdate}
             />}

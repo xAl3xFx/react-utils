@@ -14,6 +14,7 @@ interface Props {
     updateButtonLabel?: string;
     cancelUpdateButtonLabel?: string;
     clearButtonLabel?: string;
+    clearButtonOnUpdateLabel?: string;
     disableSaveButton?: boolean;
     disableSaveButtonIfErrors?: boolean;
 
@@ -50,13 +51,13 @@ export const FormButtons: React.FC<Props> = props => {
 
     const getResetButtonLabel = () => {
         if(props.isUpdate){
+            if(props.clearButtonOnUpdateLabel)
+                return props.clearButtonOnUpdateLabel;
             return f({id: 'initialValues'});
         }else{
-            if(props.clearButtonLabel){
+            if(props.clearButtonLabel)
                 return props.clearButtonLabel;
-            }else{
-                return f({id: 'reset'});
-            }
+            return f({id: 'reset'});
         }
     }
 
