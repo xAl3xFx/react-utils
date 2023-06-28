@@ -222,7 +222,7 @@ export class UtilService {
                     }
                               itemTemplate={(option: any) => this.skeletonOptionTemplate(option, options.optionLabel)} {...options.props}/>
                         {options.button}
-                        <label className={'p-ml-2'}>{this.intlFormatter({id: options.label})}</label>
+                        <label className={UtilService.primeflexVersion === 2 ? 'p-ml-2' : 'ml-2'}>{this.intlFormatter({id: options.label})}</label>
                     </div>
                 </span>
                         {getFormErrorMessage(options.field)}
@@ -275,7 +275,7 @@ export class UtilService {
                                 }
                                              itemTemplate={(option: any) => this.skeletonOptionTemplate(option, options.optionLabel)} {...options.props}/>
                                 {options.button}
-                                <label className={'p-ml-2'}>{this.intlFormatter({id: options.label})}</label>
+                                <label className={UtilService.primeflexVersion === 2 ? 'p-ml-2' : 'ml-2'}>{this.intlFormatter({id: options.label})}</label>
                             </div>
                         </span>
                         {getFormErrorMessage(options.field)}
