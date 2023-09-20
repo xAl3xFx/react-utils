@@ -1,14 +1,15 @@
 import * as React from 'react';
-import {useEffect, useState, useRef, useCallback, useMemo} from 'react';
+import {useEffect, useState, useRef, useMemo} from 'react';
 import {InputTextProps} from "primereact/inputtext";
 import {DropdownProps} from "primereact/dropdown";
 import {CalendarProps} from "primereact/calendar";
 import {InputNumberProps} from "primereact/inputnumber";
-import {FormikConfig, FormikValues, useFormik} from "formik";
+import {FormikValues, useFormik} from "formik";
 import {MultiSelectProps} from "primereact/multiselect";
 import * as Yup from 'yup';
 import {FormButtons, FormButtonsPosition} from "./FormButtons";
 import {IDropdownOption, UtilService} from "./util-service";
+import {PasswordProps} from "primereact/password";
 
 export type FormElementType = 'text' | 'dropdown' | 'calendar' | 'number' | 'multiselect' | 'password';
 
@@ -41,9 +42,15 @@ type FormElementProps<T extends FormElementType> =
                         button?: JSX.Element;
                     }
                     :
-                    {
-                        props?: InputNumberProps
-                    };
+                    T extends 'password'
+                        ?
+                        {
+                            props?: PasswordProps
+                        }
+                        :
+                        {
+                            props?: InputNumberProps
+                        };
 
 export type FormElementValues<T extends FormElementType> = FormElementProps<T> & {
     type: T;
@@ -90,13 +97,13 @@ export const DynamicForm = <T extends FormikValues, >(
     const [primeflexVersion, setPrimeflexVersion] = useState(UtilService.primeflexVersion);
 
     const defaultRowClassName = (primeflexVersion === 2 ? "p-col-12 p-md-4" : 'col-12 md:col-4');
-    const defaultFormGridClassName =  (primeflexVersion === 2 ? "p-grid p-fluid p-mt-3 p-p-1" : 'grid p-fluid mt-3 p-1');
+    const defaultFormGridClassName = (primeflexVersion === 2 ? "p-grid p-fluid p-mt-3 p-p-1" : 'grid p-fluid mt-3 p-1');
 
     const formRef = useRef<HTMLFormElement | null>();
     const didMountRef = useRef(false);
 
     useEffect(() => {
-        if(!primeflexVersion) throw new Error("Unspecified primeflex version!");
+        if (!primeflexVersion) throw new Error("Unspecified primeflex version!");
     }, []);
 
 
@@ -260,16 +267,18 @@ export const DynamicForm = <T extends FormikValues, >(
                     break;
                 }
                 case "dropdown": {
-                    if(key === "siteId") {
+                    if (key === "siteId") {
                     }
                     //@ts-ignore
-                    el = generateDropdownField({field: key, label, options: props.formElements[key].options, props: {...elProps, filter: true}, selectIfSingle: true, optionValue: props.optionValue, optionLabel: props.optionLabel, button: props.formElements[key].button});
+                    el = generateDropdownField({field: key, label, options: props.formElements[key].options, props: {...elProps, filter: true}, selectIfSingle: true, optionValue: props.optionValue, optionLabel: props.optionLabel, button: props.formElements[key].button
+                    });
                     // el = generateDropdownField(key, label, props.formElements[key].options, elProps, undefined, true);
                     break;
                 }
                 case "multiselect": {
                     //@ts-ignore
-                    el = generateMultiselectField({field: key, label, options: props.formElements[key].options, props: {...elProps}, optionValue: props.optionValue, optionLabel: props.optionLabel, button: props.formElements[key].button});
+                    el = generateMultiselectField({field: key, label, options: props.formElements[key].options, props: {...elProps}, optionValue: props.optionValue, optionLabel: props.optionLabel, button: props.formElements[key].button
+                    });
                     break;
                 }
                 case "password": {
@@ -301,16 +310,17 @@ export const DynamicForm = <T extends FormikValues, >(
                 {generateForm}
                 {childrenWithFormik}
             </div>
-            {!props.hideButtons && <FormButtons className={props.formButtonsClassName} isUpdate={props.isUpdate} onResetForm={resetForm}
-                         saveButtonLabel={props.saveButtonLabel}
-                         disableSaveButton={props.disableSaveButton}
-                         disableSaveButtonIfErrors={props.disableSaveButtonIfErrors ? Object.keys(formik.errors).length > 0 : false}
-                         cancelUpdateButtonLabel={props.cancelUpdateButtonLabel}
-                         clearButtonLabel={props.clearButtonLabel}
-                         clearButtonOnUpdateLabel={props.clearButtonOnUpdateLabel}
-                         updateButtonLabel={props.updateButtonLabel}
-                         position={props.formButtonsPosition} onCancelUpdate={props.onCancelUpdate}
-            />}
+            {!props.hideButtons &&
+                <FormButtons className={props.formButtonsClassName} isUpdate={props.isUpdate} onResetForm={resetForm}
+                             saveButtonLabel={props.saveButtonLabel}
+                             disableSaveButton={props.disableSaveButton}
+                             disableSaveButtonIfErrors={props.disableSaveButtonIfErrors ? Object.keys(formik.errors).length > 0 : false}
+                             cancelUpdateButtonLabel={props.cancelUpdateButtonLabel}
+                             clearButtonLabel={props.clearButtonLabel}
+                             clearButtonOnUpdateLabel={props.clearButtonOnUpdateLabel}
+                             updateButtonLabel={props.updateButtonLabel}
+                             position={props.formButtonsPosition} onCancelUpdate={props.onCancelUpdate}
+                />}
         </form>
     </>
 };
