@@ -151,7 +151,7 @@ export class UtilService {
                         }
                         formik.handleChange(e);
                     }} {...options.props || {}}/>
-                    <label>{(isRequired ? <span style={{color: 'red'}}>*</span> : "")}{this.intlFormatter({id: options.label})}</label>
+                    <label>{(isRequired ? <span className={'required-label'}>*</span> : "")}{this.intlFormatter({id: options.label})}</label>
                 </span>
                     {getFormErrorMessage(options.field)}
                 </div>
@@ -169,7 +169,7 @@ export class UtilService {
                             onChangeCallback(options.field, e.target.value);
                         formik.handleChange(e);
                     }} {...formik.getFieldProps(options.field)} {...options.props || {}}/>
-                    <label>{(isRequired ? <span style={{color: 'red'}}>*</span> : "")}{this.intlFormatter({id: options.label})}</label>
+                    <label>{(isRequired ? <span className={'required-label'}>*</span> : "")}{this.intlFormatter({id: options.label})}</label>
                 </span>
                     {getFormErrorMessage(options.field)}
                 </div>
@@ -188,7 +188,7 @@ export class UtilService {
                                      onChangeCallback(options.field, e.value);
                                  formik.handleChange(e);
                              }} {...options.props || {}}/>
-                <label>{(isRequired ? <span style={{color: 'red'}}>*</span> : "")}{this.intlFormatter({id: options.label})}</label>
+                <label>{(isRequired ? <span className={'required-label'}>*</span> : "")}{this.intlFormatter({id: options.label})}</label>
             </span>
                     {getFormErrorMessage(options.field)}
                 </div>
@@ -226,7 +226,7 @@ export class UtilService {
                     }
                               itemTemplate={(option: any) => this.skeletonOptionTemplate(option, options.optionLabel)} {...options.props}/>
                         {options.button}
-                        <label className={UtilService.primeflexVersion === 2 ? 'p-ml-2' : 'ml-2'}>{(isRequired ? <span style={{color: 'red'}}>*</span> : "")}{this.intlFormatter({id: options.label})}</label>
+                        <label className={UtilService.primeflexVersion === 2 ? 'p-ml-2' : 'ml-2'}>{(isRequired ? <span className={'required-label'}>*</span> : "")}{this.intlFormatter({id: options.label})}</label>
                     </div>
                 </span>
                         {getFormErrorMessage(options.field)}
@@ -248,7 +248,7 @@ export class UtilService {
                     }
                     }
                               itemTemplate={(option: any) => this.skeletonOptionTemplate(option, options.optionLabel)} {...options.props}/>
-                    <label>{(isRequired ? <span style={{color: 'red'}}>*</span> : "")}{this.intlFormatter({id: options.label})}</label>
+                    <label>{(isRequired ? <span className={'required-label'}>*</span> : "")}{this.intlFormatter({id: options.label})}</label>
                 </span>
                         {getFormErrorMessage(options.field)}
                     </div>
@@ -280,7 +280,7 @@ export class UtilService {
                                 }
                                              itemTemplate={(option: any) => this.skeletonOptionTemplate(option, options.optionLabel)} {...options.props}/>
                                 {options.button}
-                                <label className={UtilService.primeflexVersion === 2 ? 'p-ml-2' : 'ml-2'}>{(isRequired ? <span style={{color: 'red'}}>*</span> : "")}{this.intlFormatter({id: options.label})}</label>
+                                <label className={UtilService.primeflexVersion === 2 ? 'p-ml-2' : 'ml-2'}>{(isRequired ? <span className={'required-label'}>*</span> : "")}{this.intlFormatter({id: options.label})}</label>
                             </div>
                         </span>
                         {getFormErrorMessage(options.field)}
@@ -303,7 +303,7 @@ export class UtilService {
                     }
                     }
                                  itemTemplate={(option: any) => this.skeletonOptionTemplate(option, options.optionLabel)} {...options.props}/>
-                    <label>{(isRequired ? <span style={{color: 'red'}}>*</span> : "")}{this.intlFormatter({id: options.label})}</label>
+                    <label>{(isRequired ? <span className={'required-label'}>*</span> : "")}{this.intlFormatter({id: options.label})}</label>
                 </span>
                         {getFormErrorMessage(options.field)}
                     </div>
@@ -323,7 +323,7 @@ export class UtilService {
                                       onChangeCallback(options.field, e.value)
                                   formik.handleChange(e);
                               }} {...options.props} />
-                   <label>{(isRequired ? <span style={{color: 'red'}}>*</span> : "")}{this.intlFormatter({id: options.label})}</label>
+                   <label>{(isRequired ? <span className={'required-label'}>*</span> : "")}{this.intlFormatter({id: options.label})}</label>
                 </span>
                     {getFormErrorMessage(options.field)}
                 </div>
