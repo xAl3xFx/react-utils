@@ -408,4 +408,15 @@ export class UtilService {
 
     static getNestedObjectParser = parseNestedObject;
 
+    static getYesNoOptions() {
+        return [
+            {
+                key: 1, [this.optionValue]: true, [this.optionLabel]: this.intlFormatter({id: 'yes'})
+            },
+            {
+                key: 2, [this.optionValue]: false, [this.optionLabel]: this.intlFormatter({id: 'no'})
+            }
+        ]
+    }
+
 }
