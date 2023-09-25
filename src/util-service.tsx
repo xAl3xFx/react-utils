@@ -411,10 +411,10 @@ export class UtilService {
     static getYesNoOptions() {
         return [
             {
-                key: 1, [this.optionValue]: true, [this.optionLabel]: this.intlFormatter({id: 'yes'})
+                key: 1, [UtilService.optionValue]: true, [UtilService.optionLabel]: UtilService.intlFormatter({id: 'yes'})
             },
             {
-                key: 2, [this.optionValue]: false, [this.optionLabel]: this.intlFormatter({id: 'no'})
+                key: 2, [UtilService.optionValue]: false, [UtilService.optionLabel]: UtilService.intlFormatter({id: 'no'})
             }
         ]
     }
