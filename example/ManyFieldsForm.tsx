@@ -9,6 +9,12 @@ interface Props {
 
 }
 
+let text : FormElementValues<'text'> = {
+    type: 'text',
+    label: 'text',
+    props: {required: false}
+}
+
 let numberOfDeposits: FormElementValues<'number'> = {
     type: "number",
     label: "numberOfDeposits",
@@ -34,7 +40,7 @@ const initialPayment: CreatePaymentRequest = {
 
 const ManyFieldsForm : React.FC<Props> = props => {
     const didMountRef = useRef(false);
-    const [formElements, setFormElements] = useState({numberOfDeposits, totalAmount});
+    const [formElements, setFormElements] = useState({numberOfDeposits, totalAmount, text});
     const [formData, setFormData] = useState({...initialValues});
     UtilService.setIntlFormatter(({id}) => id);
     const formikRef = useRef<any>();
@@ -62,12 +68,15 @@ const ManyFieldsForm : React.FC<Props> = props => {
         if(field === "numberOfDeposits") addPayments(+value);
     }
 
+    console.log(UtilService.getYesNoOptions())
+
     return <>
         <div className={''}>
             <DynamicForm
                 formElements={formElements}
                 initialValues={formData}
-                fieldOrder={['numberOfDeposits', 'totalAmount']}
+                fieldOrder={['text', 'numberOfDeposits', 'totalAmount']}
+                rowClassName={'mt-4'}
                 onCreate={() => Promise.resolve(true)}
                 onUpdate={() => Promise.resolve(true)}
                 onFieldChangeCallback={handleFieldChange}

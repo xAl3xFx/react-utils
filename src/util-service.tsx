@@ -141,6 +141,7 @@ export class UtilService {
 
         const generateTextField = (options: TextFieldOptions) => {
             // console.log('generateTextField for field "' + options.field + '"');
+            const isRequired = options.props?.required;
             return <>
                 <div className="p-field">
                 <span className="p-float-label">
@@ -150,7 +151,7 @@ export class UtilService {
                         }
                         formik.handleChange(e);
                     }} {...options.props || {}}/>
-                    <label>{this.intlFormatter({id: options.label})}</label>
+                    <label>{(isRequired ? <span style={{color: 'red'}}>*</span> : "")}{this.intlFormatter({id: options.label})}</label>
                 </span>
                     {getFormErrorMessage(options.field)}
                 </div>
@@ -159,6 +160,7 @@ export class UtilService {
 
         const generatePasswordField = (options: PasswordFieldProps) => {
             // console.log('generatePasswordField for field "' + options.field + '"');
+            const isRequired = options.props?.required;
             return <>
                 <div className="p-field">
                 <span className="p-float-label">
@@ -167,7 +169,7 @@ export class UtilService {
                             onChangeCallback(options.field, e.target.value);
                         formik.handleChange(e);
                     }} {...formik.getFieldProps(options.field)} {...options.props || {}}/>
-                    <label>{this.intlFormatter({id: options.label})}</label>
+                    <label>{(isRequired ? <span style={{color: 'red'}}>*</span> : "")}{this.intlFormatter({id: options.label})}</label>
                 </span>
                     {getFormErrorMessage(options.field)}
                 </div>
@@ -176,6 +178,7 @@ export class UtilService {
 
         const generateNumberField = (options: NumberFieldOptions) => {
             const parsedValue = parseNestedObject(formik.values, options.field);
+            const isRequired = options.props?.required;
             return <>
                 <div className="p-field">
             <span className="p-float-label">
@@ -185,7 +188,7 @@ export class UtilService {
                                      onChangeCallback(options.field, e.value);
                                  formik.handleChange(e);
                              }} {...options.props || {}}/>
-                <label>{this.intlFormatter({id: options.label})}</label>
+                <label>{(isRequired ? <span style={{color: 'red'}}>*</span> : "")}{this.intlFormatter({id: options.label})}</label>
             </span>
                     {getFormErrorMessage(options.field)}
                 </div>
@@ -194,6 +197,7 @@ export class UtilService {
 
         const generateDropdownField = (options: DropdownFieldOptions) => {
             // console.log('generateDropdownField for field "' + options.field + '"');
+            const isRequired = options.props?.required;
             if (options.selectIfSingle) {
                 const parsedValue = parseNestedObject(formik.values, options.field);
                 if (parsedValue !== null && options.options && options.options.length === 1 && parsedValue !== options.options[0][options.optionValue || this.optionValue || 'id']) {
@@ -222,7 +226,7 @@ export class UtilService {
                     }
                               itemTemplate={(option: any) => this.skeletonOptionTemplate(option, options.optionLabel)} {...options.props}/>
                         {options.button}
-                        <label className={UtilService.primeflexVersion === 2 ? 'p-ml-2' : 'ml-2'}>{this.intlFormatter({id: options.label})}</label>
+                        <label className={UtilService.primeflexVersion === 2 ? 'p-ml-2' : 'ml-2'}>{(isRequired ? <span style={{color: 'red'}}>*</span> : "")}{this.intlFormatter({id: options.label})}</label>
                     </div>
                 </span>
                         {getFormErrorMessage(options.field)}
@@ -244,7 +248,7 @@ export class UtilService {
                     }
                     }
                               itemTemplate={(option: any) => this.skeletonOptionTemplate(option, options.optionLabel)} {...options.props}/>
-                    <label>{this.intlFormatter({id: options.label})}</label>
+                    <label>{(isRequired ? <span style={{color: 'red'}}>*</span> : "")}{this.intlFormatter({id: options.label})}</label>
                 </span>
                         {getFormErrorMessage(options.field)}
                     </div>
@@ -255,6 +259,7 @@ export class UtilService {
 
         const generateMultiselectField = (options: MultiselectFieldOptions) => {
             // console.log('generateMultiselectField for field "' + options.field + '"');
+            const isRequired = options.props?.required;
             if (options.button !== undefined) {
                 return <>
                     <div className="p-field">
@@ -275,7 +280,7 @@ export class UtilService {
                                 }
                                              itemTemplate={(option: any) => this.skeletonOptionTemplate(option, options.optionLabel)} {...options.props}/>
                                 {options.button}
-                                <label className={UtilService.primeflexVersion === 2 ? 'p-ml-2' : 'ml-2'}>{this.intlFormatter({id: options.label})}</label>
+                                <label className={UtilService.primeflexVersion === 2 ? 'p-ml-2' : 'ml-2'}>{(isRequired ? <span style={{color: 'red'}}>*</span> : "")}{this.intlFormatter({id: options.label})}</label>
                             </div>
                         </span>
                         {getFormErrorMessage(options.field)}
@@ -298,7 +303,7 @@ export class UtilService {
                     }
                     }
                                  itemTemplate={(option: any) => this.skeletonOptionTemplate(option, options.optionLabel)} {...options.props}/>
-                    <label>{this.intlFormatter({id: options.label})}</label>
+                    <label>{(isRequired ? <span style={{color: 'red'}}>*</span> : "")}{this.intlFormatter({id: options.label})}</label>
                 </span>
                         {getFormErrorMessage(options.field)}
                     </div>
@@ -308,6 +313,7 @@ export class UtilService {
 
         const generateCalendarField = (options: CalendarFieldProps) => {
             // console.log('generateCalendarField for field "' + options.field + '"');
+            const isRequired = options.props?.required;
             return <>
                 <div className="p-field">
                 <span className="p-float-label">
@@ -317,7 +323,7 @@ export class UtilService {
                                       onChangeCallback(options.field, e.value)
                                   formik.handleChange(e);
                               }} {...options.props} />
-                    <label>{this.intlFormatter({id: options.label})}</label>
+                   <label>{(isRequired ? <span style={{color: 'red'}}>*</span> : "")}{this.intlFormatter({id: options.label})}</label>
                 </span>
                     {getFormErrorMessage(options.field)}
                 </div>
