@@ -25,6 +25,12 @@ let totalAmount: FormElementValues<'number'> = {
     label: "totalAmount",
 }
 
+let dropdown: FormElementValues<'dropdown'> = {
+    type: "dropdown",
+    label: "totalAmountDropdown",
+    options: []
+}
+
 const initialValues  = {
     numberOfDeposits: 20,
     totalAmount: 0,
@@ -40,7 +46,7 @@ const initialPayment: CreatePaymentRequest = {
 
 const ManyFieldsForm : React.FC<Props> = props => {
     const didMountRef = useRef(false);
-    const [formElements, setFormElements] = useState({numberOfDeposits, totalAmount, text});
+    const [formElements, setFormElements] = useState({numberOfDeposits, totalAmount, text, dropdown});
     const [formData, setFormData] = useState({...initialValues});
     UtilService.setIntlFormatter(({id}) => id);
     const formikRef = useRef<any>();
@@ -73,9 +79,10 @@ const ManyFieldsForm : React.FC<Props> = props => {
     return <>
         <div className={''}>
             <DynamicForm
+                readOnly={true}
                 formElements={formElements}
                 initialValues={formData}
-                fieldOrder={['text', 'numberOfDeposits', 'totalAmount']}
+                fieldOrder={['text', 'numberOfDeposits', 'totalAmount', 'dropdown']}
                 rowClassName={'mt-4'}
                 onCreate={() => Promise.resolve(true)}
                 onUpdate={() => Promise.resolve(true)}

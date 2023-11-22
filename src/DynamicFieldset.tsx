@@ -19,6 +19,7 @@ interface Props<T> {
     elementKey?: string | number;
     removeElementHandler?: (key: string | number) => any;
     removeButtonTooltip?: string;
+    readOnly?: boolean;
 }
 
 export const DynamicFieldset = <T extends FormikValues, >(
@@ -61,7 +62,7 @@ export const DynamicFieldset = <T extends FormikValues, >(
             }
 
             const label = props.formElements[key].label;
-            const elProps = props.formElements[key].props;
+            const elProps = {...props.formElements[key].props, disabled: props.readOnly};
             switch (props.formElements[key].type) {
                 case "text": {
                     //@ts-ignore
