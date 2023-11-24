@@ -62,7 +62,7 @@ export const DynamicFieldset = <T extends FormikValues, >(
             }
 
             const label = props.formElements[key].label;
-            const elProps = {...props.formElements[key].props, disabled: props.readOnly};
+            const elProps = {...props.formElements[key].props, disabled: props.formElements[key].props?.disabled || props.readOnly};
             switch (props.formElements[key].type) {
                 case "text": {
                     //@ts-ignore
@@ -81,8 +81,7 @@ export const DynamicFieldset = <T extends FormikValues, >(
                 }
                 case "dropdown": {
                     //@ts-ignore
-                    el = generateDropdownField({
-                        field: key,
+                    el = generateDropdownField({field: key,
                         label,
                         //@ts-ignore
                         options: props.formElements[key].options,

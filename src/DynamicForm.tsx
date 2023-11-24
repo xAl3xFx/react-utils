@@ -250,7 +250,7 @@ export const DynamicForm = <T extends FormikValues, >(
             }
 
             const label = props.formElements[key].label;
-            const elProps = {...props.formElements[key].props, disabled: props.readOnly};
+            const elProps = {...props.formElements[key].props, disabled: props.formElements[key].props?.disabled || props.readOnly};
             switch (props.formElements[key].type) {
                 case "text": {
                     //@ts-ignore
