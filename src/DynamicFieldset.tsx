@@ -29,7 +29,7 @@ export const DynamicFieldset = <T extends FormikValues, >(
 
     const didMountRef = useRef(false);
 
-    const defaultRowClassName = (primeflexVersion === 2 ? "p-col-12 p-md-4" : 'col-12 md:col-4');
+    const defaultRowClassName = (primeflexVersion === 2 ? "p-col-12 p-md-4" : 'col-12 md:col-4 mb-3');
     const defaultFormGridClassName =  (primeflexVersion === 2 ? "p-grid p-fluid p-mt-3 p-p-1" : 'grid p-fluid mt-3 p-1');
 
     useEffect(() => {
