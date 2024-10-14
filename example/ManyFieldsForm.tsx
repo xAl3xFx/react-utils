@@ -28,13 +28,15 @@ let totalAmount: FormElementValues<'number'> = {
 let dropdown: FormElementValues<'dropdown'> = {
     type: "dropdown",
     label: "totalAmountDropdown",
-    options: []
+    options: [{id: 1, key: 1, description: 'Тест1'}, {id: 2, key: 2, description: 'Тест2'}],
+    props:{optionValue: 'id', optionLabel: 'description', placeholder: 'Choose'}
 }
 
 const initialValues  = {
     numberOfDeposits: 20,
     totalAmount: 0,
-    payments: []
+    payments: [],
+    dropdown: 0
 }
 
 const initialPayment: CreatePaymentRequest = {
@@ -74,16 +76,13 @@ const ManyFieldsForm : React.FC<Props> = props => {
         if(field === "numberOfDeposits") addPayments(+value);
     }
 
-    console.log(UtilService.getYesNoOptions())
-
     return <>
         <div className={''}>
             <DynamicForm
-                readOnly={true}
                 formElements={formElements}
                 initialValues={formData}
                 fieldOrder={['text', 'numberOfDeposits', 'totalAmount', 'dropdown']}
-                rowClassName={'mt-4'}
+                rowClassName={'col-12 md:col-4 mb-3'}
                 onCreate={() => Promise.resolve(true)}
                 onUpdate={() => Promise.resolve(true)}
                 onFieldChangeCallback={handleFieldChange}

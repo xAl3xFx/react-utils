@@ -34,7 +34,7 @@ const initialValues = {
 
 
 UtilService.setIntlFormatter(({id}) => id);
-UtilService.setPrimeflexVersion(2);
+UtilService.setPrimeflexVersion(3);
 
 const App = () => {
     const [formElements, setFormElements] = useState({age, name});
