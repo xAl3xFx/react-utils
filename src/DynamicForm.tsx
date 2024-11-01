@@ -59,12 +59,12 @@ export type FormElementValues<T extends FormElementType> = FormElementProps<T> &
 
 export type FormElement<T> = { [key in keyof Partial<T>]: FormElementValues<FormElementType> }
 
-interface Props<T> {
+interface Props<T, K> {
     onFieldChangeCallback?: (field: string, value: any) => void;
     formElements: FormElement<T>;
     isUpdate: boolean;
     onCreate: (values: T) => Promise<boolean>;
-    onUpdate: (values: T) => Promise<boolean>;
+    onUpdate: (values: K) => Promise<boolean>;
     onFormReset?: () => void;
     children?: React.ReactNode;
     validationSchema?: Yup.SchemaOf<any>;
@@ -92,8 +92,8 @@ interface Props<T> {
     readOnly?: boolean;
 }
 
-export const DynamicForm = <T extends FormikValues, >(
-    props: Props<T>
+export const DynamicForm = <T extends FormikValues, K extends FormikValues>(
+    props: Props<T, K>
 ) => {
     const [primeflexVersion, setPrimeflexVersion] = useState(UtilService.primeflexVersion);
 
