@@ -4,6 +4,7 @@ import {DynamicForm, FormElementValues, UtilService} from "../src";
 import {validationSchema} from "./validation";
 import {PaymentFieldset} from "./PaymentFieldset";
 import {CreatePaymentRequest} from "./types";
+import {NestedForm} from "./NestedForm";
 
 interface Props {
 
@@ -48,7 +49,7 @@ const initialPayment: CreatePaymentRequest = {
 
 const ManyFieldsForm : React.FC<Props> = props => {
     const didMountRef = useRef(false);
-    const [formElements, setFormElements] = useState({numberOfDeposits, totalAmount, text, dropdown});
+    const [formElementsState, setFormElementsState] = useState({numberOfDeposits, totalAmount, text, dropdown});
     const [formData, setFormData] = useState({...initialValues});
     UtilService.setIntlFormatter(({id}) => id);
     const formikRef = useRef<any>();
@@ -79,18 +80,22 @@ const ManyFieldsForm : React.FC<Props> = props => {
     return <>
         <div className={''}>
             <DynamicForm
-                formElements={formElements}
+                formElements={formElementsState}
                 initialValues={formData}
-                fieldOrder={['text', 'numberOfDeposits', 'totalAmount', 'dropdown']}
+                fieldOrder={['text', 'dropdown']}
                 rowClassName={'col-12 md:col-4 mb-3'}
-                onCreate={() => Promise.resolve(true)}
+                onCreate={async (values) => {
+                    console.log(values)
+                    return false;
+                }}
                 onUpdate={() => Promise.resolve(true)}
                 onFieldChangeCallback={handleFieldChange}
                 setFormikRef={(formik) => formikRef.current = formik}
                 isUpdate={false}
-                validationSchema={validationSchema}
+                // validationSchema={validationSchema}
                 onCancelUpdate={() => 0} >
-                <PaymentFieldset legend={'asd'} dataField={'payments'} numberOfPayments={formData.numberOfDeposits} />
+                <NestedForm formElements={formElementsState} formData={formData} />
+                {/*<PaymentFieldset legend={'asd'} dataField={'payments'} numberOfPayments={formData.numberOfDeposits} />*/}
             </DynamicForm>
         </div>
     </>

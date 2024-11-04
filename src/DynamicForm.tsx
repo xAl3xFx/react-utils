@@ -77,6 +77,7 @@ interface Props<T, K> {
     onCancelUpdate: () => void;
     className?: any;
     setFormikRef?: (formik: any) => void;
+    formik?: any;
     saveButtonLabel?: string;
     updateButtonLabel?: string;
     cancelUpdateButtonLabel?: string;
@@ -142,7 +143,7 @@ export const DynamicForm = <T extends FormikValues, K extends FormikValues>(
     //     console.log('DynamicForm: Updated');
     // });
 
-    const formik = useFormik({
+    const formik = props.formik || useFormik({
         initialValues: {...props.initialValues},
         validationSchema: props.validationSchema,
         onSubmit: (data: T | K) => {
