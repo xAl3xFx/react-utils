@@ -102,12 +102,17 @@ interface IFieldUtils {
 
 export class UtilService {
     public static intlFormatter: any;
+    public static locale: string;
     public static optionValue: string;
     public static optionLabel: string;
     public static primeflexVersion: 2 | 3;
 
     static setIntlFormatter(intlFormatter: any) {
         this.intlFormatter = intlFormatter;
+    }
+    
+    static setLocale(locale: string){
+        this.locale = locale;
     }
 
     static setOptionValue(optionValue: string) {
