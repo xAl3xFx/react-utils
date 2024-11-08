@@ -26,6 +26,7 @@ type FormElementProps<T extends FormElementType> =
                 props?: DropdownProps;
                 options: IDropdownOption[];
                 button?: JSX.Element;
+                selectIfSingle?: boolean;
             }
             :
             T extends "calendar"
@@ -272,7 +273,7 @@ export const DynamicForm = <T extends FormikValues, K extends FormikValues>(
                     if (key === "siteId") {
                     }
                     //@ts-ignore
-                    el = generateDropdownField({field: key, label, options: props.formElements[key].options, props: {...elProps, filter: true}, selectIfSingle: true, optionValue: props.optionValue, optionLabel: props.optionLabel, button: props.formElements[key].button
+                    el = generateDropdownField({field: key, label, options: props.formElements[key].options, props: {...elProps, filter: true}, selectIfSingle:  props.formElements[key].selectIfSingle ?? true, optionValue: props.optionValue, optionLabel: props.optionLabel, button: props.formElements[key].button
                     });
                     // el = generateDropdownField(key, label, props.formElements[key].options, elProps, undefined, true);
                     break;

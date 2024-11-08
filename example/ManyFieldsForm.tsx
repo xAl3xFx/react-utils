@@ -10,7 +10,7 @@ interface Props {
 
 }
 
-let text : FormElementValues<'text'> = {
+let text: FormElementValues<'text'> = {
     type: 'text',
     label: 'text',
     props: {required: false}
@@ -29,11 +29,14 @@ let totalAmount: FormElementValues<'number'> = {
 let dropdown: FormElementValues<'dropdown'> = {
     type: "dropdown",
     label: "totalAmountDropdown",
-    options: [{id: 1, key: 1, description: 'Тест1'}, {id: 2, key: 2, description: 'Тест2'}],
-    props:{optionValue: 'id', optionLabel: 'description', placeholder: 'Choose'}
+    selectIfSingle: false,
+    options: [{id: 1, key: 1, description: 'Тест1'},
+        // {id: 2, key: 2, description: 'Тест2'}
+    ],
+    props: {optionValue: 'id', optionLabel: 'description', placeholder: 'Choose'}
 }
 
-const initialValues  = {
+const initialValues = {
     numberOfDeposits: 20,
     totalAmount: 0,
     payments: [],
@@ -47,7 +50,7 @@ const initialPayment: CreatePaymentRequest = {
     installmentSequenceNumber: ""
 }
 
-const ManyFieldsForm : React.FC<Props> = props => {
+const ManyFieldsForm: React.FC<Props> = props => {
     const didMountRef = useRef(false);
     const [formElementsState, setFormElementsState] = useState({numberOfDeposits, totalAmount, text, dropdown});
     const [formData, setFormData] = useState({...initialValues});
@@ -55,26 +58,26 @@ const ManyFieldsForm : React.FC<Props> = props => {
     const formikRef = useRef<any>();
 
     useEffect(() => {
-        if(!didMountRef.current) {
+        if (!didMountRef.current) {
             didMountRef.current = true;
         }
     }, []);
 
     const addPayments = (value: number) => {
-        const payments : any = [];
+        const payments: any = [];
         const monthPaymentAmount = formikRef.current.values.totalAmount / value;
-        for(let i = 0; i < value; i++) {
-            const newPayment : any = {...initialPayment};
+        for (let i = 0; i < value; i++) {
+            const newPayment: any = {...initialPayment};
             newPayment.installmentSequenceNumber = i + 1;
             newPayment.amount = monthPaymentAmount;
             payments.push(newPayment);
         }
-        if(formikRef.current)
+        if (formikRef.current)
             formikRef.current.setValues({...formikRef.current.values, payments})
     }
 
     const handleFieldChange = (field: string, value: any) => {
-        if(field === "numberOfDeposits") addPayments(+value);
+        if (field === "numberOfDeposits") addPayments(+value);
     }
 
     return <>
@@ -93,8 +96,8 @@ const ManyFieldsForm : React.FC<Props> = props => {
                 setFormikRef={(formik) => formikRef.current = formik}
                 isUpdate={false}
                 // validationSchema={validationSchema}
-                onCancelUpdate={() => 0} >
-                <NestedForm formElements={formElementsState} formData={formData} />
+                onCancelUpdate={() => 0}>
+                <NestedForm formElements={formElementsState} formData={formData}/>
                 {/*<PaymentFieldset legend={'asd'} dataField={'payments'} numberOfPayments={formData.numberOfDeposits} />*/}
             </DynamicForm>
         </div>
