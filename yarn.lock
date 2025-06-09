@@ -5242,10 +5242,10 @@ pretty-format@^25.2.1, pretty-format@^25.5.0:
     ansi-styles "^4.0.0"
     react-is "^16.12.0"
 
-primereact@^8.3.0:
-  version "8.3.0"
-  resolved "https://registry.yarnpkg.com/primereact/-/primereact-8.3.0.tgz#78c00a043a4629e135f66f975021414ea3913c46"
-  integrity sha512-Y/8hlTnKsmgbTLlw6LWwMoA78rDMdA2PUcrJqm7wHgBUVxSPQ8l4f3JkbpVKVqESb5nuay9l+0BE4dx1zSBTAg==
+primereact@^10.9.6:
+  version "10.9.6"
+  resolved "https://registry.yarnpkg.com/primereact/-/primereact-10.9.6.tgz#2db6b0d8d1ebcf831f20c54071011ad1b2a388b6"
+  integrity sha512-0Jjz/KzfUURSHaPTXJwjL2Dc7CDPnbO17MivyJz7T5smGAMLY5d+IqpQhV61R22G/rDmhMh3+32LCNva2M8fRw==
   dependencies:
     "@types/react-transition-group" "^4.4.1"
     react-transition-group "^4.4.1"

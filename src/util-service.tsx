@@ -229,7 +229,7 @@ export class UtilService {
                         }
                     }
                     }
-                              itemTemplate={(option: any) => this.skeletonOptionTemplate(option, options.optionLabel)} {...options.props}/>
+                              itemTemplate={(option: any) => this.skeletonOptionTemplate(option, options.optionLabel)} filterInputAutoFocus={options.props?.filter} {...options.props}/>
                         {options.button}
                         <label className={UtilService.primeflexVersion === 2 ? 'p-ml-2' : 'ml-2'}>{(isRequired ? <span className={'required-label'}>*</span> : "")}{this.intlFormatter({id: options.label})}</label>
                     </div>
@@ -252,7 +252,7 @@ export class UtilService {
                         }
                     }
                     }
-                              itemTemplate={(option: any) => this.skeletonOptionTemplate(option, options.optionLabel)} {...options.props}/>
+                              itemTemplate={(option: any) => this.skeletonOptionTemplate(option, options.optionLabel)} filterInputAutoFocus={options.props?.filter} {...options.props}/>
                     <label>{(isRequired ? <span className={'required-label'}>*</span> : "")}{this.intlFormatter({id: options.label})}</label>
                 </span>
                         {getFormErrorMessage(options.field)}
@@ -283,7 +283,7 @@ export class UtilService {
                                     }
                                 }
                                 }
-                                             itemTemplate={(option: any) => this.skeletonOptionTemplate(option, options.optionLabel)} {...options.props}/>
+                                             itemTemplate={(option: any) => this.skeletonOptionTemplate(option, options.optionLabel)} filterInputAutoFocus={options.props?.filter} {...options.props}/>
                                 {options.button}
                                 <label className={UtilService.primeflexVersion === 2 ? 'p-ml-2' : 'ml-2'}>{(isRequired ? <span className={'required-label'}>*</span> : "")}{this.intlFormatter({id: options.label})}</label>
                             </div>
@@ -307,7 +307,7 @@ export class UtilService {
                         }
                     }
                     }
-                                 itemTemplate={(option: any) => this.skeletonOptionTemplate(option, options.optionLabel)} {...options.props}/>
+                                 itemTemplate={(option: any) => this.skeletonOptionTemplate(option, options.optionLabel)} filterInputAutoFocus={options.props?.filter} {...options.props}/>
                     <label>{(isRequired ? <span className={'required-label'}>*</span> : "")}{this.intlFormatter({id: options.label})}</label>
                 </span>
                         {getFormErrorMessage(options.field)}
