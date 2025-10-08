@@ -366,11 +366,12 @@ export class UtilService {
                 <div className="p-field">
                 <span className="p-float-label">
                     <TreeSelect name={options.field} value={parseNestedObject(formik.values, options.field)}
-                              onChange={e => {
-                                  if (onChangeCallback)
-                                      onChangeCallback(options.field, e.value)
-                                  formik.handleChange(e);
-                              }} {...options.props} />
+                                options={options.options}
+                                onChange={e => {
+                                    if (onChangeCallback)
+                                        onChangeCallback(options.field, e.value)
+                                    formik.handleChange(e);
+                                }} {...options.props} />
                    <label>{(isRequired ? <span
                        className={'required-label'}>*</span> : "")}{this.intlFormatter({id: options.label})}</label>
                 </span>
