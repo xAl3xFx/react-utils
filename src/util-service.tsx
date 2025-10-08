@@ -8,6 +8,8 @@ import {Calendar, CalendarProps} from "primereact/calendar";
 import moment from "moment-timezone";
 import cloneDeep from 'lodash.clonedeep';
 import {Password, PasswordProps} from "primereact/password";
+import {TreeSelect, TreeSelectProps} from "primereact/treeselect";
+import {TreeNode} from "primereact/treenode";
 
 interface IDropdownOptionBase {
     key: number | string;
@@ -34,13 +36,13 @@ const setNestedObject = (object: any, key: string | number | symbol, value: any)
     let res = object;
     let tokens = key.toString().split('.');
     for (let i = 0; i < tokens.length; i++) {
-        if(res && res.hasOwnProperty(tokens[i])){
+        if (res && res.hasOwnProperty(tokens[i])) {
             if (i === tokens.length - 1) {
-                    res[tokens[i]] = value;
-                } else {
-                    res = res[tokens[i]];
-                }
-        }else return undefined
+                res[tokens[i]] = value;
+            } else {
+                res = res[tokens[i]];
+            }
+        } else return undefined
     }
     return object;
 }
@@ -78,6 +80,15 @@ export interface MultiselectFieldOptions {
     button?: JSX.Element;
 }
 
+export interface TreeSelectFieldOptions {
+    field: string;
+    label: string;
+    options: TreeNode[];
+    props?: TreeSelectProps;
+    optionValue?: string;
+    optionLabel?: string;
+}
+
 export interface NumberFieldOptions {
     field: string;
     label: string;
@@ -97,6 +108,7 @@ interface IFieldUtils {
     generateNumberField: (options: NumberFieldOptions) => JSX.Element;
     generateCalendarField: (options: CalendarFieldProps) => JSX.Element;
     generatePasswordField: (options: PasswordFieldProps) => JSX.Element;
+    generateTreeSelectField: (options: TreeSelectFieldOptions) => JSX.Element;
 }
 
 
@@ -110,8 +122,8 @@ export class UtilService {
     static setIntlFormatter(intlFormatter: any) {
         this.intlFormatter = intlFormatter;
     }
-    
-    static setLocale(locale: string){
+
+    static setLocale(locale: string) {
         this.locale = locale;
     }
 
@@ -126,7 +138,6 @@ export class UtilService {
     static setPrimeflexVersion(version: 2 | 3) {
         this.primeflexVersion = version;
     }
-
 
 
     static formikUtils(formik: any): [(name: string) => boolean, (name: string) => boolean | JSX.Element] {
@@ -156,7 +167,8 @@ export class UtilService {
                         }
                         formik.handleChange(e);
                     }} {...options.props || {}}/>
-                    <label>{(isRequired ? <span className={'required-label'}>*</span> : "")}{this.intlFormatter({id: options.label})}</label>
+                    <label>{(isRequired ? <span
+                        className={'required-label'}>*</span> : "")}{this.intlFormatter({id: options.label})}</label>
                 </span>
                     {getFormErrorMessage(options.field)}
                 </div>
@@ -174,7 +186,8 @@ export class UtilService {
                             onChangeCallback(options.field, e.target.value);
                         formik.handleChange(e);
                     }} {...formik.getFieldProps(options.field)} {...options.props || {}}/>
-                    <label>{(isRequired ? <span className={'required-label'}>*</span> : "")}{this.intlFormatter({id: options.label})}</label>
+                    <label>{(isRequired ? <span
+                        className={'required-label'}>*</span> : "")}{this.intlFormatter({id: options.label})}</label>
                 </span>
                     {getFormErrorMessage(options.field)}
                 </div>
@@ -193,7 +206,8 @@ export class UtilService {
                                      onChangeCallback(options.field, e.value);
                                  formik.handleChange(e);
                              }} {...options.props || {}}/>
-                <label>{(isRequired ? <span className={'required-label'}>*</span> : "")}{this.intlFormatter({id: options.label})}</label>
+                <label>{(isRequired ?
+                    <span className={'required-label'}>*</span> : "")}{this.intlFormatter({id: options.label})}</label>
             </span>
                     {getFormErrorMessage(options.field)}
                 </div>
@@ -229,9 +243,11 @@ export class UtilService {
                         }
                     }
                     }
-                              itemTemplate={(option: any) => this.skeletonOptionTemplate(option, options.optionLabel)} filterInputAutoFocus={options.props?.filter} {...options.props}/>
+                              itemTemplate={(option: any) => this.skeletonOptionTemplate(option, options.optionLabel)}
+                              filterInputAutoFocus={options.props?.filter} {...options.props}/>
                         {options.button}
-                        <label className={UtilService.primeflexVersion === 2 ? 'p-ml-2' : 'ml-2'}>{(isRequired ? <span className={'required-label'}>*</span> : "")}{this.intlFormatter({id: options.label})}</label>
+                        <label className={UtilService.primeflexVersion === 2 ? 'p-ml-2' : 'ml-2'}>{(isRequired ? <span
+                            className={'required-label'}>*</span> : "")}{this.intlFormatter({id: options.label})}</label>
                     </div>
                 </span>
                         {getFormErrorMessage(options.field)}
@@ -252,8 +268,10 @@ export class UtilService {
                         }
                     }
                     }
-                              itemTemplate={(option: any) => this.skeletonOptionTemplate(option, options.optionLabel)} filterInputAutoFocus={options.props?.filter} {...options.props}/>
-                    <label>{(isRequired ? <span className={'required-label'}>*</span> : "")}{this.intlFormatter({id: options.label})}</label>
+                              itemTemplate={(option: any) => this.skeletonOptionTemplate(option, options.optionLabel)}
+                              filterInputAutoFocus={options.props?.filter} {...options.props}/>
+                    <label>{(isRequired ? <span
+                        className={'required-label'}>*</span> : "")}{this.intlFormatter({id: options.label})}</label>
                 </span>
                         {getFormErrorMessage(options.field)}
                     </div>
@@ -283,9 +301,12 @@ export class UtilService {
                                     }
                                 }
                                 }
-                                             itemTemplate={(option: any) => this.skeletonOptionTemplate(option, options.optionLabel)} filterInputAutoFocus={options.props?.filter} {...options.props}/>
+                                             itemTemplate={(option: any) => this.skeletonOptionTemplate(option, options.optionLabel)}
+                                             filterInputAutoFocus={options.props?.filter} {...options.props}/>
                                 {options.button}
-                                <label className={UtilService.primeflexVersion === 2 ? 'p-ml-2' : 'ml-2'}>{(isRequired ? <span className={'required-label'}>*</span> : "")}{this.intlFormatter({id: options.label})}</label>
+                                <label className={UtilService.primeflexVersion === 2 ? 'p-ml-2' : 'ml-2'}>{(isRequired ?
+                                    <span
+                                        className={'required-label'}>*</span> : "")}{this.intlFormatter({id: options.label})}</label>
                             </div>
                         </span>
                         {getFormErrorMessage(options.field)}
@@ -307,8 +328,10 @@ export class UtilService {
                         }
                     }
                     }
-                                 itemTemplate={(option: any) => this.skeletonOptionTemplate(option, options.optionLabel)} filterInputAutoFocus={options.props?.filter} {...options.props}/>
-                    <label>{(isRequired ? <span className={'required-label'}>*</span> : "")}{this.intlFormatter({id: options.label})}</label>
+                                 itemTemplate={(option: any) => this.skeletonOptionTemplate(option, options.optionLabel)}
+                                 filterInputAutoFocus={options.props?.filter} {...options.props}/>
+                    <label>{(isRequired ? <span
+                        className={'required-label'}>*</span> : "")}{this.intlFormatter({id: options.label})}</label>
                 </span>
                         {getFormErrorMessage(options.field)}
                     </div>
@@ -328,7 +351,28 @@ export class UtilService {
                                       onChangeCallback(options.field, e.value)
                                   formik.handleChange(e);
                               }} {...options.props} />
-                   <label>{(isRequired ? <span className={'required-label'}>*</span> : "")}{this.intlFormatter({id: options.label})}</label>
+                   <label>{(isRequired ? <span
+                       className={'required-label'}>*</span> : "")}{this.intlFormatter({id: options.label})}</label>
+                </span>
+                    {getFormErrorMessage(options.field)}
+                </div>
+            </>
+        }
+
+        const generateTreeSelectField = (options: TreeSelectFieldOptions) => {
+            console.log('generateTreeSelectField for field "' + options.field + '"');
+            const isRequired = options.props?.required;
+            return <>
+                <div className="p-field">
+                <span className="p-float-label">
+                    <TreeSelect name={options.field} value={parseNestedObject(formik.values, options.field)}
+                              onChange={e => {
+                                  if (onChangeCallback)
+                                      onChangeCallback(options.field, e.value)
+                                  formik.handleChange(e);
+                              }} {...options.props} />
+                   <label>{(isRequired ? <span
+                       className={'required-label'}>*</span> : "")}{this.intlFormatter({id: options.label})}</label>
                 </span>
                     {getFormErrorMessage(options.field)}
                 </div>
@@ -341,7 +385,8 @@ export class UtilService {
             generateNumberField,
             generateMultiselectField,
             generateCalendarField,
-            generatePasswordField
+            generatePasswordField,
+            generateTreeSelectField
         }
     }
 
@@ -422,10 +467,14 @@ export class UtilService {
     static getYesNoOptions() {
         return [
             {
-                key: 1, [UtilService.optionValue]: true, [UtilService.optionLabel]: UtilService.intlFormatter({id: 'yes'})
+                key: 1,
+                [UtilService.optionValue]: true,
+                [UtilService.optionLabel]: UtilService.intlFormatter({id: 'yes'})
             },
             {
-                key: 2, [UtilService.optionValue]: false, [UtilService.optionLabel]: UtilService.intlFormatter({id: 'no'})
+                key: 2,
+                [UtilService.optionValue]: false,
+                [UtilService.optionLabel]: UtilService.intlFormatter({id: 'no'})
             }
         ]
     }
