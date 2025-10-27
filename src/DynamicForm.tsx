@@ -4,7 +4,7 @@ import {InputTextProps} from "primereact/inputtext";
 import {DropdownProps} from "primereact/dropdown";
 import {CalendarProps} from "primereact/calendar";
 import {InputNumberProps} from "primereact/inputnumber";
-import {FormikValues, useFormik} from "formik";
+import {FormikContextType, FormikValues, useFormik} from "formik";
 import {MultiSelectProps} from "primereact/multiselect";
 import * as Yup from 'yup';
 import {FormButtons, FormButtonsPosition} from "./FormButtons";
@@ -74,11 +74,11 @@ interface Props<T, K> {
     formButtonsClassName?: string;
     initialValues: T;
     fieldOrder: (keyof T)[] | string[];
-    customElements?: { [key in keyof Partial<T> | string]: (formik: any) => JSX.Element };
+    customElements?: { [key in keyof Partial<T> | string]: (formik: FormikContextType<T>) => JSX.Element };
     onCancelUpdate: () => void;
     className?: any;
-    setFormikRef?: (formik: any) => void;
-    formik?: any;
+    setFormikRef?: (formik: FormikContextType<T>) => void;
+    formik?: FormikContextType<T>;
     saveButtonLabel?: string;
     updateButtonLabel?: string;
     cancelUpdateButtonLabel?: string;
@@ -316,7 +316,7 @@ export const DynamicForm = <T extends FormikValues, K extends FormikValues>(
             {!props.hideButtons &&
                 <FormButtons className={props.formButtonsClassName} isUpdate={props.isUpdate} onResetForm={resetForm}
                              saveButtonLabel={props.saveButtonLabel}
-                             disableSaveButton={props.disableSaveButton}
+                             disableSaveButton={props.disableSaveButton || formik.isSubmitting}
                              disableSaveButtonIfErrors={props.disableSaveButtonIfErrors ? Object.keys(formik.errors).length > 0 : false}
                              cancelUpdateButtonLabel={props.cancelUpdateButtonLabel}
                              clearButtonLabel={props.clearButtonLabel}
