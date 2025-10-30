@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {useEffect, useState, useRef, useMemo} from 'react';
+import {useEffect, useMemo, useRef, useState} from 'react';
 import {InputTextProps} from "primereact/inputtext";
 import {DropdownProps} from "primereact/dropdown";
 import {CalendarProps} from "primereact/calendar";
@@ -153,15 +153,22 @@ export const DynamicForm = <T extends FormikValues, K extends FormikValues>(
                     //Do not use resetForm() here because it will just reset initialValues from update.
                     if (result) {
                         formik.resetForm();
-                        if (props.onFormReset)
+                        if (props.onFormReset) {
                             props.onFormReset();
+
+                        }
+                        return true
                     }
-                });
+                    return false;
+                }).finally(() => formik.setSubmitting(false));
             } else {
                 props.onCreate(data as T).then(result => {
-                    if (result)
-                        resetForm()
-                });
+                    if (result) {
+                        resetForm();
+                        return true;
+                    }
+                    return false;
+                }).finally(() => formik.setSubmitting(false));
             }
         }
     });
@@ -252,7 +259,10 @@ export const DynamicForm = <T extends FormikValues, K extends FormikValues>(
             }
 
             const label = props.formElements[key].label;
-            const elProps = {...props.formElements[key].props, disabled: props.formElements[key].props?.disabled || props.readOnly};
+            const elProps = {
+                ...props.formElements[key].props,
+                disabled: props.formElements[key].props?.disabled || props.readOnly
+            };
             switch (props.formElements[key].type) {
                 case "text": {
                     //@ts-ignore
@@ -273,7 +283,7 @@ export const DynamicForm = <T extends FormikValues, K extends FormikValues>(
                     if (key === "siteId") {
                     }
                     //@ts-ignore
-                    el = generateDropdownField({field: key, label, options: props.formElements[key].options, props: {...elProps, filter: true}, selectIfSingle:  props.formElements[key].selectIfSingle ?? true, optionValue: props.optionValue, optionLabel: props.optionLabel, button: props.formElements[key].button
+                    el = generateDropdownField({field: key, label, options: props.formElements[key].options, props: {...elProps, filter: true}, selectIfSingle: props.formElements[key].selectIfSingle ?? true, optionValue: props.optionValue, optionLabel: props.optionLabel, button: props.formElements[key].button
                     });
                     // el = generateDropdownField(key, label, props.formElements[key].options, elProps, undefined, true);
                     break;
