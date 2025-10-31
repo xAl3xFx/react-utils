@@ -10,6 +10,7 @@ import {useFormik} from "formik";
 import {FormElementValues} from "../src";
 import {IDropdownOption} from "../src/util-service";
 import {useEffect, useState} from "react";
+import SiteOfferForm from "./siteOffers/SiteOfferForm";
 const ManyFieldsForm = React.lazy(() => import("./ManyFieldsForm"))
 export interface TestCreate {
     age: number;
@@ -115,7 +116,7 @@ const App = () => {
 
     const {generateDropdownField} = UtilService.fieldUtils(formik);
 
-    return <React.Suspense fallback={<></>}><ManyFieldsForm /></React.Suspense>
+    return <React.Suspense fallback={<></>}><SiteOfferForm isUpdate={false} /></React.Suspense>
 };
 
 const root = ReactDOM.createRoot(document.getElementById('root')!);

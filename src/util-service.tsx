@@ -156,12 +156,12 @@ export class UtilService {
         const [_, getFormErrorMessage] = this.formikUtils(formik);
 
         const generateTextField = (options: TextFieldOptions) => {
-            // console.log('generateTextField for field "' + options.field + '"');
+            const fieldName =  formik.getFieldProps(options.field)?.name;
             const isRequired = options.props?.required;
             return <>
                 <div className="p-field">
                 <span className="p-float-label">
-                    <InputText {...formik.getFieldProps(options.field)} onChange={e => {
+                    <InputText name={fieldName || ""} onChange={e => {
                         if (onChangeCallback) {
                             onChangeCallback(options.field, e.target.value);
                         }
@@ -360,7 +360,7 @@ export class UtilService {
         }
 
         const generateTreeSelectField = (options: TreeSelectFieldOptions) => {
-            console.log('generateTreeSelectField for field "' + options.field + '"');
+            // console.log('generateTreeSelectField for field "' + options.field + '"');
             const isRequired = options.props?.required;
             return <>
                 <div className="p-field">
