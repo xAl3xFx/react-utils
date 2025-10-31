@@ -157,11 +157,12 @@ export class UtilService {
 
         const generateTextField = (options: TextFieldOptions) => {
             const fieldName =  formik.getFieldProps(options.field)?.name;
+            const fieldValue =  formik.getFieldProps(options.field)?.value;
             const isRequired = options.props?.required;
             return <>
                 <div className="p-field">
                 <span className="p-float-label">
-                    <InputText name={fieldName || ""} onChange={e => {
+                    <InputText name={fieldName || ""} value={fieldValue} onChange={e => {
                         if (onChangeCallback) {
                             onChangeCallback(options.field, e.target.value);
                         }
