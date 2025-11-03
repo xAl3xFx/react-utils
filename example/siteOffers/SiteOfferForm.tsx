@@ -21,7 +21,7 @@ const SiteOfferForm: React.FC<Props> = props => {
         validTo: null,
         siteId: 0,
         downtimeAfterFirstHour: 0,
-        concreteTruckTransportUnder6M3Price: 0,
+        concreteTruckTransportUnder6M3Price: 22,
         items: [],
         activities: [],
         commonItems: []
@@ -31,6 +31,12 @@ const SiteOfferForm: React.FC<Props> = props => {
 
     const [formData, setFormData] = useState({...initialValues});
     const [formElementsState, setFormElementsState] = useState(formElements);
+
+    useEffect(() => {
+        setTimeout(() => {
+            setFormData({...initialValues, items: [{name: "test123", measuringUnitName: "test123", priceWithoutTransport: 0, priceWithTransport: 0, includeInExport: true}] });
+        }, 2000)
+    }, [])
 
     const getTreeLeafs = (tree: any): TreeNode[] => {
         return (tree.children && tree.children.length > 0) ? tree.children.flatMap(getTreeLeafs) : [tree];
@@ -233,7 +239,7 @@ const SiteOfferForm: React.FC<Props> = props => {
             </div>,
             <div key={key + '-name'} className={fieldClass}>{generateTextField({
                 field: `${dataField}.${key}.name`,
-                props: {},
+                props: {keyfilter: "num"},
                 label: 'name'
             })}</div>,
             <div key={key + '-measuringUnitId'} className={fieldClass}>{generateTextField({

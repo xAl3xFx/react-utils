@@ -10,6 +10,9 @@ import cloneDeep from 'lodash.clonedeep';
 import {Password, PasswordProps} from "primereact/password";
 import {TreeSelect, TreeSelectProps} from "primereact/treeselect";
 import {TreeNode} from "primereact/treenode";
+import {useEffect, useMemo} from "react";
+import debounce from "lodash.debounce";
+import {FormikInputText} from "./fieldComponents/FormikInputText";
 
 interface IDropdownOptionBase {
     key: number | string;
@@ -155,26 +158,24 @@ export class UtilService {
     static fieldUtils(formik: any, onChangeCallback?: (field: string, value: any) => void): IFieldUtils {
         const [_, getFormErrorMessage] = this.formikUtils(formik);
 
+
+
         const generateTextField = (options: TextFieldOptions) => {
-            const fieldName =  formik.getFieldProps(options.field)?.name;
-            const fieldValue =  formik.getFieldProps(options.field)?.value;
             const isRequired = options.props?.required;
-            return <>
-                <div className="p-field">
-                <span className="p-float-label">
-                    <InputText name={fieldName || ""} value={fieldValue} onChange={e => {
-                        if (onChangeCallback) {
-                            onChangeCallback(options.field, e.target.value);
-                        }
-                        formik.handleChange(e);
-                    }} {...options.props || {}}/>
-                    <label>{(isRequired ? <span
-                        className={'required-label'}>*</span> : "")}{this.intlFormatter({id: options.label})}</label>
-                </span>
-                    {getFormErrorMessage(options.field)}
-                </div>
-            </>
-        }
+
+            return (
+                <FormikInputText
+                    field={"text"}
+                    key={options.field}
+                    name={options.field}
+                    label={this.intlFormatter({ id: options.label })}
+                    required={isRequired}
+                    debounceDelay={200}
+                    onValueChange={onChangeCallback}
+                    {...(options.props || {})}
+                />
+            )
+        };
 
         const generatePasswordField = (options: PasswordFieldProps) => {
             // console.log('generatePasswordField for field "' + options.field + '"');

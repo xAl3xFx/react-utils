@@ -4,7 +4,7 @@ import {InputTextProps} from "primereact/inputtext";
 import {DropdownProps} from "primereact/dropdown";
 import {CalendarProps} from "primereact/calendar";
 import {InputNumberProps} from "primereact/inputnumber";
-import {FormikContextType, FormikValues, useFormik} from "formik";
+import {FormikContextType, FormikProvider, FormikValues, useFormik} from "formik";
 import {MultiSelectProps} from "primereact/multiselect";
 import * as Yup from 'yup';
 import {FormButtons, FormButtonsPosition} from "./FormButtons";
@@ -317,24 +317,26 @@ export const DynamicForm = <T extends FormikValues, K extends FormikValues>(
     });
 
     return <>
-        <form ref={(ref) => formRef.current = ref} onSubmit={formik.handleSubmit}
-              style={{...props.className, overflow: 'hidden'}} noValidate>
-            <div className={props.formGridClassName || defaultFormGridClassName}>
-                {generateForm}
-                {childrenWithFormik}
-            </div>
-            {!props.hideButtons &&
-                <FormButtons className={props.formButtonsClassName} isUpdate={props.isUpdate} onResetForm={resetForm}
-                             saveButtonLabel={props.saveButtonLabel}
-                             disableSaveButton={props.disableSaveButton || formik.isSubmitting}
-                             disableSaveButtonIfErrors={props.disableSaveButtonIfErrors ? Object.keys(formik.errors).length > 0 : false}
-                             cancelUpdateButtonLabel={props.cancelUpdateButtonLabel}
-                             clearButtonLabel={props.clearButtonLabel}
-                             clearButtonOnUpdateLabel={props.clearButtonOnUpdateLabel}
-                             updateButtonLabel={props.updateButtonLabel}
-                             position={props.formButtonsPosition} onCancelUpdate={props.onCancelUpdate}
-                />}
-        </form>
+        <FormikProvider value={formik}>
+            <form ref={(ref) => formRef.current = ref} onSubmit={formik.handleSubmit}
+                  style={{...props.className, overflow: 'hidden'}} noValidate>
+                <div className={props.formGridClassName || defaultFormGridClassName}>
+                    {generateForm}
+                    {childrenWithFormik}
+                </div>
+                {!props.hideButtons &&
+                    <FormButtons className={props.formButtonsClassName} isUpdate={props.isUpdate} onResetForm={resetForm}
+                                 saveButtonLabel={props.saveButtonLabel}
+                                 disableSaveButton={props.disableSaveButton || formik.isSubmitting}
+                                 disableSaveButtonIfErrors={props.disableSaveButtonIfErrors ? Object.keys(formik.errors).length > 0 : false}
+                                 cancelUpdateButtonLabel={props.cancelUpdateButtonLabel}
+                                 clearButtonLabel={props.clearButtonLabel}
+                                 clearButtonOnUpdateLabel={props.clearButtonOnUpdateLabel}
+                                 updateButtonLabel={props.updateButtonLabel}
+                                 position={props.formButtonsPosition} onCancelUpdate={props.onCancelUpdate}
+                    />}
+            </form>
+        </FormikProvider>
     </>
 };
 

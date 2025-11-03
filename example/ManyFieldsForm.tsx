@@ -36,21 +36,34 @@ let dropdown: FormElementValues<'dropdown'> = {
     props: {optionValue: 'id', optionLabel: 'description', placeholder: 'Choose'}
 }
 
-const initialValues = {
-    numberOfDeposits: 20,
-    totalAmount: 0,
-    payments: [],
-    dropdown: 0
-}
+// const initialValues = {
+//     numberOfDeposits: 20,
+//     totalAmount: 0,
+//     payments: [],
+//     dropdown: 0
+// }
 
-const initialPayment: CreatePaymentRequest = {
-    amount: 0,
-    dueDate: new Date(),
-    paid: false,
-    installmentSequenceNumber: ""
-}
+// const initialPayment: CreatePaymentRequest = {
+//     amount: 0,
+//     dueDate: new Date(),
+//     paid: false,
+//     installmentSequenceNumber: ""
+// }
 
 const ManyFieldsForm: React.FC<Props> = props => {
+    const initialValues: any = {
+        validFrom: new Date(),
+        validTo: null,
+        siteId: 0,
+        downtimeAfterFirstHour: 0,
+        concreteTruckTransportUnder6M3Price: 22,
+        items: [
+            {name: "test123", measuringUnitName: "test123", priceWithoutTransport: 0, priceWithTransport: 0, includeInExport: true},
+        ],
+        activities: [],
+        commonItems: []
+    }
+
     const didMountRef = useRef(false);
     const [formElementsState, setFormElementsState] = useState({numberOfDeposits, totalAmount, text, dropdown});
     const [formData, setFormData] = useState({...initialValues});
@@ -63,28 +76,28 @@ const ManyFieldsForm: React.FC<Props> = props => {
         }
     }, []);
 
-    const addPayments = (value: number) => {
-        const payments: any = [];
-        const monthPaymentAmount = formikRef.current.values.totalAmount / value;
-        for (let i = 0; i < value; i++) {
-            const newPayment: any = {...initialPayment};
-            newPayment.installmentSequenceNumber = i + 1;
-            newPayment.amount = monthPaymentAmount;
-            payments.push(newPayment);
-        }
-        if (formikRef.current)
-            formikRef.current.setValues({...formikRef.current.values, payments})
-    }
+    // const addPayments = (value: number) => {
+    //     const payments: any = [];
+    //     const monthPaymentAmount = formikRef.current.values.totalAmount / value;
+    //     for (let i = 0; i < value; i++) {
+    //         const newPayment: any = {...initialPayment};
+    //         newPayment.installmentSequenceNumber = i + 1;
+    //         newPayment.amount = monthPaymentAmount;
+    //         payments.push(newPayment);
+    //     }
+    //     if (formikRef.current)
+    //         formikRef.current.setValues({...formikRef.current.values, payments})
+    // }
 
     const handleFieldChange = (field: string, value: any) => {
-        if (field === "numberOfDeposits") addPayments(+value);
+        // if (field === "numberOfDeposits") addPayments(+value);
     }
 
     return <>
         <div className={''}>
             <DynamicForm
                 formElements={formElementsState}
-                initialValues={formData}
+                initialValues={initialValues}
                 fieldOrder={['text', 'dropdown']}
                 rowClassName={'col-12 md:col-4 mb-3'}
                 onCreate={async (values) => {
