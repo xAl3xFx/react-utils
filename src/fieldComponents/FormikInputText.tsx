@@ -37,10 +37,6 @@ export const FormikInputText: React.FC<FormikInputTextProps> = ({
         return () => debouncedValueChange?.cancel();
     }, [debouncedValueChange]);
 
-    useEffect(() => {
-        console.log("FIELD VALUE FROM FORMIK IS: ", setFieldValue)
-    }, [setFieldValue])
-
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         setFieldValue(name, value);
