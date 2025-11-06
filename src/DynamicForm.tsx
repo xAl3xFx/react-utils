@@ -149,7 +149,8 @@ export const DynamicForm = <T extends FormikValues, K extends FormikValues>(
         validationSchema: props.validationSchema,
         onSubmit: (data: T | K) => {
             if (props.isUpdate) {
-                props.onUpdate(data as K).then(result => {
+                props.onUpdate(data as K)
+                    .then(result => {
                     //Do not use resetForm() here because it will just reset initialValues from update.
                     if (result) {
                         formik.resetForm();
@@ -160,7 +161,7 @@ export const DynamicForm = <T extends FormikValues, K extends FormikValues>(
                         return true
                     }
                     return false;
-                }).finally(() => formik.setSubmitting(false));
+                }).catch(_ => 0).finally(() => formik.setSubmitting(false));
             } else {
                 props.onCreate(data as T).then(result => {
                     if (result) {
@@ -168,7 +169,7 @@ export const DynamicForm = <T extends FormikValues, K extends FormikValues>(
                         return true;
                     }
                     return false;
-                }).finally(() => formik.setSubmitting(false));
+                }).catch(_ => 0).finally(() => formik.setSubmitting(false));
             }
         }
     });
