@@ -1,12 +1,16 @@
 {
-  "name": "react-utils",
-  "version": "0.1.0",
+  "name": "@xal3xfx/react-utils",
+  "repository": "git://github.com/xal3xfx/react-utils.git",
+  "author": "Alex Petrov",
+  "version": "1.4.13",
   "license": "MIT",
-  "author": "Aleksandar Bakalov",
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
   "exports": {
     ".": {
       "import": {
