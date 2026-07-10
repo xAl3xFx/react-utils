@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Button} from "primereact/button";
 import {UtilService} from "./util-service";
 
@@ -23,7 +23,7 @@ interface Props {
 export const FormButtons: React.FC<Props> = props => {
     const f = UtilService.intlFormatter;
 
-    const [primeflexVersion, setPrimeflexVersion] = useState(UtilService.primeflexVersion);
+    const [primeflexVersion, _setPrimeflexVersion] = useState(UtilService.primeflexVersion);
 
     const defaultClassName = (primeflexVersion === 2 ? "p-col-12 p-md-3 p-lg-3 p-xl-2" : 'col-12 md:col-3 lg:col-3 xl:col-2');
     const wrapperClassName = (primeflexVersion === 2 ? `p-fluid p-grid p-justify-${props.position || "center"}` : `p-fluid grid justify-content-${props.position || "center"}`);

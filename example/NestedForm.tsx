@@ -1,6 +1,6 @@
 import * as React from "react";
 import {useEffect, useRef, useState} from "react";
-import {DynamicForm} from "../src";
+import {DynamicForm_deprecated} from "../src/deprecated/DynamicForm_deprecated";
 
 interface Props {
     formik?: any;
@@ -11,9 +11,9 @@ interface Props {
 export const NestedForm: React.FC<Props> = props => {
 
     return <>
-        <DynamicForm formElements={props.formElements} isUpdate={false} onCreate={async () => false} hideButtons formik={props.formik}
-                     onUpdate={async () => false} initialValues={props.formData} fieldOrder={['numberOfDeposits', 'totalAmount',]}
-                     onCancelUpdate={() => 0}/>
+        <DynamicForm_deprecated formElements={props.formElements} isUpdate={false} onCreate={async () => false} hideButtons formik={props.formik}
+                                onUpdate={async () => false} initialValues={props.formData} fieldOrder={['numberOfDeposits', 'totalAmount',]}
+                                onCancelUpdate={() => 0}/>
     </>
 };
 

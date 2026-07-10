@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {useEffect, useMemo, useRef, useState} from 'react';
-import {UtilService} from "./util-service";
-import {FormElement} from "./DynamicForm";
+import {UtilService} from "../util-service";
+import {FormElement} from "./DynamicForm_deprecated";
 import {FormikValues} from "formik";
 import {Button} from "primereact/button";
 import {MultiSelectProps} from "primereact/multiselect";
@@ -22,10 +22,10 @@ interface Props<T> {
     readOnly?: boolean;
 }
 
-export const DynamicFieldset = <T extends FormikValues, >(
+export const DynamicFieldset_deprecated = <T extends FormikValues, >(
     props: Props<T>
 ) => {
-    const [primeflexVersion, setPrimeflexVersion] = useState(UtilService.primeflexVersion);
+    const [primeflexVersion, _setPrimeflexVersion] = useState(UtilService.primeflexVersion);
 
     const didMountRef = useRef(false);
 
@@ -52,7 +52,7 @@ export const DynamicFieldset = <T extends FormikValues, >(
     } = UtilService.fieldUtils(props.formik, props.onFieldChangeCallback);
 
     const generateForm = useMemo(() => {
-        // console.log('DynamicForm: generateForm called');
+        // console.log('DynamicForm_deprecated: generateForm called');
         //@ts-ignore
         const result = props.fieldOrder.map((key) => {
             let el;
@@ -61,9 +61,9 @@ export const DynamicFieldset = <T extends FormikValues, >(
                 return <div key={String(key)} className={props.rowClassName || defaultRowClassName}>{el}</div>
             }
 
-            const label = props.formElements[key].label;
-            const elProps = {...props.formElements[key].props, disabled: props.formElements[key].props?.disabled || props.readOnly};
-            switch (props.formElements[key].type) {
+            const label = props.formElements[key]?.label;
+            const elProps = {...props.formElements[key]?.props, disabled: props.formElements[key]?.props?.disabled || props.readOnly};
+            switch (props.formElements[key]?.type) {
                 case "text": {
                     //@ts-ignore
                     el = generateTextField({field: key, label, props: elProps});
@@ -82,7 +82,7 @@ export const DynamicFieldset = <T extends FormikValues, >(
                 case "dropdown": {
                     //@ts-ignore
                     el = generateDropdownField({field: key,
-                        label,
+                        label: label || "",
                         //@ts-ignore
                         options: props.formElements[key].options,
                         //@ts-ignore
@@ -98,7 +98,7 @@ export const DynamicFieldset = <T extends FormikValues, >(
                 case "multiselect": {
                     //@ts-ignore
                     el = generateMultiselectField({ field: key,
-                        label,
+                        label: label || "",
                         //@ts-ignore
                         options: props.formElements[key].options,
                         props: {...elProps as MultiSelectProps},
@@ -143,6 +143,6 @@ export const DynamicFieldset = <T extends FormikValues, >(
     </>
 };
 
-DynamicFieldset.defaultProps = {
+DynamicFieldset_deprecated.defaultProps = {
     removeButtonTooltip: "Премахни"
 }

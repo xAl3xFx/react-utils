@@ -1,117 +1,117 @@
-import * as React from 'react';
-import {useEffect, useState, useRef} from 'react';
-import {DynamicForm, FormElementValues, UtilService} from "../src";
-import {NestedForm} from "./NestedForm";
-
-interface Props {
-
-}
-
-let text: FormElementValues<'text'> = {
-    type: 'text',
-    label: 'text',
-    props: {required: false}
-}
-
-let numberOfDeposits: FormElementValues<'number'> = {
-    type: "number",
-    label: "numberOfDeposits",
-}
-
-let totalAmount: FormElementValues<'number'> = {
-    type: "number",
-    label: "totalAmount",
-}
-
-let dropdown: FormElementValues<'dropdown'> = {
-    type: "dropdown",
-    label: "totalAmountDropdown",
-    selectIfSingle: false,
-    options: [{id: 1, key: 1, description: 'Тест1'},
-        // {id: 2, key: 2, description: 'Тест2'}
-    ],
-    props: {optionValue: 'id', optionLabel: 'description', placeholder: 'Choose'}
-}
-
-// const initialValues = {
-//     numberOfDeposits: 20,
-//     totalAmount: 0,
-//     payments: [],
-//     dropdown: 0
+// import * as React from 'react';
+// import {useEffect, useState, useRef} from 'react';
+// import {DynamicForm_deprecated, FormElementValues, UtilService} from "../src/deprecated/DynamicFieldset_deprecated";
+// import {NestedForm} from "./NestedForm";
+//
+// interface Props {
+//
 // }
-
-// const initialPayment: CreatePaymentRequest = {
-//     amount: 0,
-//     dueDate: new Date(),
-//     paid: false,
-//     installmentSequenceNumber: ""
+//
+// let text: FormElementValues<'text'> = {
+//     type: 'text',
+//     label: 'text',
+//     props: {required: false}
 // }
-
-const ManyFieldsForm: React.FC<Props> = props => {
-    const initialValues: any = {
-        validFrom: new Date(),
-        validTo: null,
-        siteId: 0,
-        downtimeAfterFirstHour: 0,
-        concreteTruckTransportUnder6M3Price: 22,
-        items: [
-            {name: "test123", measuringUnitName: "test123", priceWithoutTransport: 0, priceWithTransport: 0, includeInExport: true},
-        ],
-        activities: [],
-        commonItems: []
-    }
-
-    const didMountRef = useRef(false);
-    const [formElementsState, setFormElementsState] = useState({numberOfDeposits, totalAmount, text, dropdown});
-    const [formData, setFormData] = useState({...initialValues});
-    UtilService.setIntlFormatter(({id}: {id: any}) => id);
-    const formikRef = useRef<any>();
-
-    useEffect(() => {
-        if (!didMountRef.current) {
-            didMountRef.current = true;
-        }
-    }, []);
-
-    // const addPayments = (value: number) => {
-    //     const payments: any = [];
-    //     const monthPaymentAmount = formikRef.current.values.totalAmount / value;
-    //     for (let i = 0; i < value; i++) {
-    //         const newPayment: any = {...initialPayment};
-    //         newPayment.installmentSequenceNumber = i + 1;
-    //         newPayment.amount = monthPaymentAmount;
-    //         payments.push(newPayment);
-    //     }
-    //     if (formikRef.current)
-    //         formikRef.current.setValues({...formikRef.current.values, payments})
-    // }
-
-    const handleFieldChange = (field: string, value: any) => {
-        // if (field === "numberOfDeposits") addPayments(+value);
-    }
-
-    return <>
-        <div className={''}>
-            <DynamicForm
-                formElements={formElementsState}
-                initialValues={initialValues}
-                fieldOrder={['text', 'dropdown']}
-                rowClassName={'col-12 md:col-4 mb-3'}
-                onCreate={async (values) => {
-                    console.log(values)
-                    return false;
-                }}
-                onUpdate={() => Promise.resolve(true)}
-                onFieldChangeCallback={handleFieldChange}
-                setFormikRef={(formik) => formikRef.current = formik}
-                isUpdate={false}
-                // validationSchema={validationSchema}
-                onCancelUpdate={() => 0}>
-                <NestedForm formElements={formElementsState} formData={formData}/>
-                {/*<PaymentFieldset legend={'asd'} dataField={'payments'} numberOfPayments={formData.numberOfDeposits} />*/}
-            </DynamicForm>
-        </div>
-    </>
-};
-
-export default ManyFieldsForm;
+//
+// let numberOfDeposits: FormElementValues<'number'> = {
+//     type: "number",
+//     label: "numberOfDeposits",
+// }
+//
+// let totalAmount: FormElementValues<'number'> = {
+//     type: "number",
+//     label: "totalAmount",
+// }
+//
+// let dropdown: FormElementValues<'dropdown'> = {
+//     type: "dropdown",
+//     label: "totalAmountDropdown",
+//     selectIfSingle: false,
+//     options: [{id: 1, key: 1, description: 'Тест1'},
+//         // {id: 2, key: 2, description: 'Тест2'}
+//     ],
+//     props: {optionValue: 'id', optionLabel: 'description', placeholder: 'Choose'}
+// }
+//
+// // const initialValues = {
+// //     numberOfDeposits: 20,
+// //     totalAmount: 0,
+// //     payments: [],
+// //     dropdown: 0
+// // }
+//
+// // const initialPayment: CreatePaymentRequest = {
+// //     amount: 0,
+// //     dueDate: new Date(),
+// //     paid: false,
+// //     installmentSequenceNumber: ""
+// // }
+//
+// const ManyFieldsForm: React.FC<Props> = props => {
+//     const initialValues: any = {
+//         validFrom: new Date(),
+//         validTo: null,
+//         siteId: 0,
+//         downtimeAfterFirstHour: 0,
+//         concreteTruckTransportUnder6M3Price: 22,
+//         items: [
+//             {name: "test123", measuringUnitName: "test123", priceWithoutTransport: 0, priceWithTransport: 0, includeInExport: true},
+//         ],
+//         activities: [],
+//         commonItems: []
+//     }
+//
+//     const didMountRef = useRef(false);
+//     const [formElementsState, setFormElementsState] = useState({numberOfDeposits, totalAmount, text, dropdown});
+//     const [formData, setFormData] = useState({...initialValues});
+//     UtilService.setIntlFormatter(({id}: {id: any}) => id);
+//     const formikRef = useRef<any>();
+//
+//     useEffect(() => {
+//         if (!didMountRef.current) {
+//             didMountRef.current = true;
+//         }
+//     }, []);
+//
+//     // const addPayments = (value: number) => {
+//     //     const payments: any = [];
+//     //     const monthPaymentAmount = formikRef.current.values.totalAmount / value;
+//     //     for (let i = 0; i < value; i++) {
+//     //         const newPayment: any = {...initialPayment};
+//     //         newPayment.installmentSequenceNumber = i + 1;
+//     //         newPayment.amount = monthPaymentAmount;
+//     //         payments.push(newPayment);
+//     //     }
+//     //     if (formikRef.current)
+//     //         formikRef.current.setValues({...formikRef.current.values, payments})
+//     // }
+//
+//     const handleFieldChange = (field: string, value: any) => {
+//         // if (field === "numberOfDeposits") addPayments(+value);
+//     }
+//
+//     return <>
+//         <div className={''}>
+//             <DynamicForm_deprecated
+//                 formElements={formElementsState}
+//                 initialValues={initialValues}
+//                 fieldOrder={['text', 'dropdown']}
+//                 rowClassName={'col-12 md:col-4 mb-3'}
+//                 onCreate={async (values) => {
+//                     console.log(values)
+//                     return false;
+//                 }}
+//                 onUpdate={() => Promise.resolve(true)}
+//                 onFieldChangeCallback={handleFieldChange}
+//                 setFormikRef={(formik) => formikRef.current = formik}
+//                 isUpdate={false}
+//                 // validationSchema={validationSchema}
+//                 onCancelUpdate={() => 0}>
+//                 <NestedForm formElements={formElementsState} formData={formData}/>
+//                 {/*<PaymentFieldset legend={'asd'} dataField={'payments'} numberOfPayments={formData.numberOfDeposits} />*/}
+//             </DynamicForm_deprecated>
+//         </div>
+//     </>
+// };
+//
+// export default ManyFieldsForm;

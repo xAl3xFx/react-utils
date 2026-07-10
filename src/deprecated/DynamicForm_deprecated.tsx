@@ -7,8 +7,8 @@ import {InputNumberProps} from "primereact/inputnumber";
 import {FormikContextType, FormikProvider, FormikValues, useFormik} from "formik";
 import {MultiSelectProps} from "primereact/multiselect";
 import * as Yup from 'yup';
-import {FormButtons, FormButtonsPosition} from "./FormButtons";
-import {IDropdownOption, UtilService} from "./util-service";
+import {FormButtons, FormButtonsPosition} from "../FormButtons";
+import {IDropdownOption, UtilService} from "../util-service";
 import {PasswordProps} from "primereact/password";
 
 export type FormElementType = 'text' | 'dropdown' | 'calendar' | 'number' | 'multiselect' | 'password';
@@ -94,7 +94,7 @@ interface Props<T, K> {
     readOnly?: boolean;
 }
 
-export const DynamicForm = <T extends FormikValues, K extends FormikValues>(
+export const DynamicForm_deprecated = <T extends FormikValues, K extends FormikValues>(
     props: Props<T, K>
 ) => {
     const [primeflexVersion, _setPrimeflexVersion] = useState(UtilService.primeflexVersion);
@@ -140,7 +140,7 @@ export const DynamicForm = <T extends FormikValues, K extends FormikValues>(
     }, [props.isUpdate, formRef.current, props.scrollToForm]);
 
     // useEffect(() => {
-    //     console.log('DynamicForm: Updated');
+    //     console.log('DynamicForm_deprecated: Updated');
     // });
 
     const formik = props.formik || useFormik<T>({
@@ -249,7 +249,7 @@ export const DynamicForm = <T extends FormikValues, K extends FormikValues>(
 
 
     const generateForm = useMemo(() => {
-        // console.log('DynamicForm: generateForm called');
+        // console.log('DynamicForm_deprecated: generateForm called');
         //@ts-ignore
         return props.fieldOrder.map((key) => {
             let el;
@@ -340,6 +340,6 @@ export const DynamicForm = <T extends FormikValues, K extends FormikValues>(
     </>
 };
 
-// DynamicForm.defaultProps = {
+// DynamicForm_deprecated.defaultProps = {
 //     rowClassName: primeflexVersion === 2 ? "p-col-12 p-md-4" : 'col-12 md:col-4',
 // }
