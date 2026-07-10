@@ -14,7 +14,7 @@
 
 import {DynamicFieldset} from "./DynamicFieldset";
 import {DynamicForm, FormElement, FormElementType, FormElementValues} from "./DynamicForm";
-import {UtilService} from "./util-service";
+import {IDropdownOption, UtilService} from "./util-service";
 
 export {
     UtilService,
@@ -22,5 +22,6 @@ export {
     type FormElement,
     type FormElementValues,
     type FormElementType,
+    type IDropdownOption,
     DynamicFieldset
 }
