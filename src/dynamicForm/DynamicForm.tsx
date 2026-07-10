@@ -7,6 +7,7 @@ import { InputNumber, InputNumberProps } from 'primereact/inputnumber';
 import { InputText, InputTextProps } from 'primereact/inputtext';
 import { MultiSelect, MultiSelectProps } from 'primereact/multiselect';
 import { Password, PasswordProps } from 'primereact/password';
+import {FormButtons, FormButtonsProps} from "./FormButtons";
 
 interface CustomFieldProps {
     name: string;
@@ -84,6 +85,10 @@ const PasswordComp = ({ name, label, ...props }: PasswordFieldProps) => {
     return <FieldWrapper name={name} label={label}><Password id={name} name={name} value={formik.values[name]} onChange={formik.handleChange} {...props} /></FieldWrapper>;
 };
 
+const FormButtonsComp = (props: FormButtonsProps) => {
+    return <FormButtons {...props} />
+}
+
 // --- Export Assembly ---
 export const DynamicForm = {
     Root,
@@ -93,5 +98,6 @@ export const DynamicForm = {
     Number: NumberComp,
     MultiSelect: MultiSelectComp,
     Password: PasswordComp,
+    FormButtons: FormButtonsComp,
     useDynamicForm
 };

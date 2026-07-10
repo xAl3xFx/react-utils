@@ -7,7 +7,7 @@ import {InputNumberProps} from "primereact/inputnumber";
 import {FormikContextType, FormikProvider, FormikValues, useFormik} from "formik";
 import {MultiSelectProps} from "primereact/multiselect";
 import * as Yup from 'yup';
-import {FormButtons, FormButtonsPosition} from "../FormButtons";
+import {FormButtons, FormButtonsPosition} from "../dynamicForm/FormButtons";
 import {IDropdownOption, UtilService} from "../util-service";
 import {PasswordProps} from "primereact/password";
 
