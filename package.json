@@ -2,7 +2,7 @@
   "name": "@xal3xfx/react-utils",
   "repository": "git://github.com/xal3xfx/react-utils.git",
   "author": "Alex Petrov",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "license": "MIT",
   "type": "module",
   "main": "./dist/index.cjs",
