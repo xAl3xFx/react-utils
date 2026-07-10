@@ -1,5 +1,4 @@
-import * as React from 'react';
-import {InputText, InputTextProps} from "primereact/inputtext";
+import {InputTextProps} from "primereact/inputtext";
 import {InputNumber, InputNumberProps} from "primereact/inputnumber";
 import {Dropdown, DropdownProps} from "primereact/dropdown";
 import {Skeleton} from "primereact/skeleton";
@@ -10,8 +9,6 @@ import cloneDeep from 'lodash.clonedeep';
 import {Password, PasswordProps} from "primereact/password";
 import {TreeSelect, TreeSelectProps} from "primereact/treeselect";
 import {TreeNode} from "primereact/treenode";
-import {useEffect, useMemo} from "react";
-import debounce from "lodash.debounce";
 import {FormikInputText} from "./fieldComponents/FormikInputText";
 
 interface IDropdownOptionBase {

@@ -1,30 +1,22 @@
 {
   "name": "example",
-  "version": "1.1.0",
-  "main": "index.js",
-  "license": "MIT",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
   "scripts": {
-    "start": "parcel index.html --no-cache",
-    "build": "parcel build index.html"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "dependencies": {
-    "formik": "^2.2.9",
-    "primeflex": "^3.3.1",
-    "primeicons": "^5.0.0",
-    "primereact": "10.9.7",
-    "react-app-polyfill": "^1.0.0",
-    "react-transition-group": "^4.4.5",
-    "yup": "^0.32.11"
-  },
-  "alias": {
-    "react": "../node_modules/react",
-    "react-dom": "../node_modules/react-dom",
-    "scheduler/tracing": "../node_modules/scheduler/tracing-profiling"
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
   },
   "devDependencies": {
-    "@types/react": "^18.0.27",
-    "@types/react-dom": "^18.0.6",
-    "parcel": "2.12.0",
-    "typescript": "^3.4.5"
+    "@types/react": "^18.3.17",
+    "@types/react-dom": "^18.3.5",
+    "@vitejs/plugin-react": "^4.3.4",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.5"
   }
 }

@@ -1,5 +1,26 @@
-import {UtilService} from './util-service'
-import { DynamicForm, FormElement, FormElementValues, FormElementType } from "./DynamicForm";
-import { DynamicFieldset } from "./DynamicFieldset";
+// import type { ReactNode } from 'react';
+//
+// export interface ThingProps {
+//   children?: ReactNode;
+// }
+//
+// export const Thing = ({ children }: ThingProps) => {
+//   return (
+//     <div>
+//       {children ?? 'the snozzberries taste like snozzberries'}
+//     </div>
+//   );
+// };
 
-export {UtilService, DynamicForm, FormElement, FormElementValues, FormElementType, DynamicFieldset}
+import {DynamicFieldset} from "./DynamicFieldset";
+import {DynamicForm, FormElement, FormElementType, FormElementValues} from "./DynamicForm";
+import {UtilService} from "./util-service";
+
+export {
+    UtilService,
+    DynamicForm,
+    type FormElement,
+    type FormElementValues,
+    type FormElementType,
+    DynamicFieldset
+}

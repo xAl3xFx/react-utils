@@ -68,7 +68,7 @@ interface Props<T, K> {
     onUpdate: (values: K) => Promise<boolean>;
     onFormReset?: () => void;
     children?: React.ReactNode;
-    validationSchema?: Yup.SchemaOf<any>;
+    validationSchema?: Yup.Schema<any>;
     rowClassName?: string;
     formButtonsPosition?: FormButtonsPosition;
     formButtonsClassName?: string;
@@ -97,13 +97,12 @@ interface Props<T, K> {
 export const DynamicForm = <T extends FormikValues, K extends FormikValues>(
     props: Props<T, K>
 ) => {
-    const [primeflexVersion, setPrimeflexVersion] = useState(UtilService.primeflexVersion);
+    const [primeflexVersion, _setPrimeflexVersion] = useState(UtilService.primeflexVersion);
 
     const defaultRowClassName = (primeflexVersion === 2 ? "p-col-12 p-md-4" : 'col-12 md:col-4 mb-3');
     const defaultFormGridClassName = (primeflexVersion === 2 ? "p-grid p-fluid p-mt-3 p-p-1" : 'grid p-fluid mt-3 p-1');
 
     const formRef = useRef<HTMLFormElement | null>();
-    const didMountRef = useRef(false);
 
     useEffect(() => {
         if (!primeflexVersion) throw new Error("Unspecified primeflex version!");
@@ -144,7 +143,7 @@ export const DynamicForm = <T extends FormikValues, K extends FormikValues>(
     //     console.log('DynamicForm: Updated');
     // });
 
-    const formik = props.formik || useFormik({
+    const formik = props.formik || useFormik<T>({
         initialValues: {...props.initialValues},
         validationSchema: props.validationSchema,
         onSubmit: (data: T | K) => {
@@ -259,12 +258,12 @@ export const DynamicForm = <T extends FormikValues, K extends FormikValues>(
                 return <div key={String(key)} className={props.rowClassName || defaultRowClassName}>{el}</div>
             }
 
-            const label = props.formElements[key].label;
+            const label = props.formElements[key]?.label;
             const elProps = {
-                ...props.formElements[key].props,
-                disabled: props.formElements[key].props?.disabled || props.readOnly
+                ...props.formElements[key]?.props,
+                disabled: props.formElements[key]?.props?.disabled || props.readOnly
             };
-            switch (props.formElements[key].type) {
+            switch (props.formElements[key]?.type) {
                 case "text": {
                     //@ts-ignore
                     el = generateTextField({field: key, label, props: elProps});

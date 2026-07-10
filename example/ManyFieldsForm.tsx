@@ -1,9 +1,6 @@
 import * as React from 'react';
 import {useEffect, useState, useRef} from 'react';
 import {DynamicForm, FormElementValues, UtilService} from "../src";
-import {validationSchema} from "./validation";
-import {PaymentFieldset} from "./PaymentFieldset";
-import {CreatePaymentRequest} from "./types";
 import {NestedForm} from "./NestedForm";
 
 interface Props {
@@ -67,7 +64,7 @@ const ManyFieldsForm: React.FC<Props> = props => {
     const didMountRef = useRef(false);
     const [formElementsState, setFormElementsState] = useState({numberOfDeposits, totalAmount, text, dropdown});
     const [formData, setFormData] = useState({...initialValues});
-    UtilService.setIntlFormatter(({id}) => id);
+    UtilService.setIntlFormatter(({id}: {id: any}) => id);
     const formikRef = useRef<any>();
 
     useEffect(() => {
