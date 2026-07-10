@@ -85,12 +85,12 @@ const PasswordComp = ({ name, label, ...props }: PasswordFieldProps) => {
     return <FieldWrapper name={name} label={label}><Password id={name} name={name} value={formik.values[name]} onChange={formik.handleChange} {...props} /></FieldWrapper>;
 };
 
-const ArrayComp = ({ name, children }: { name: string, children: (helpers: FieldArrayRenderProps) => React.ReactNode }) => {
+const ArrayComp = ({ name, children, wrapperClassName }: { name: string, wrapperClassName?: string, children: (helpers: FieldArrayRenderProps) => React.ReactNode }) => {
     return (
         <FieldArray
             name={name}
             render={(helpers) => (
-                <div className="dynamic-array-container">
+                <div className={wrapperClassName || ""}>
                     {children(helpers)}
                 </div>
             )}
