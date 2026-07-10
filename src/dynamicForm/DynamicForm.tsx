@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FormikProvider, useFormik, FormikValues, FormikConfig } from 'formik';
+import {FormikProvider, useFormik, FormikValues, FormikConfig, FieldArrayRenderProps, FieldArray} from 'formik';
 import { DynamicFormContext, useDynamicForm } from '../context/DynamicFormContext';
 import { Dropdown, DropdownProps } from 'primereact/dropdown';
 import { Calendar, CalendarProps } from 'primereact/calendar';
@@ -85,6 +85,20 @@ const PasswordComp = ({ name, label, ...props }: PasswordFieldProps) => {
     return <FieldWrapper name={name} label={label}><Password id={name} name={name} value={formik.values[name]} onChange={formik.handleChange} {...props} /></FieldWrapper>;
 };
 
+const ArrayComp = ({ name, children }: { name: string, children: (helpers: FieldArrayRenderProps) => React.ReactNode }) => {
+    return (
+        <FieldArray
+            name={name}
+            render={(helpers) => (
+                <div className="dynamic-array-container">
+                    {children(helpers)}
+                </div>
+            )}
+        />
+    );
+};
+
+
 const FormButtonsComp = (props: FormButtonsProps) => {
     return <FormButtons {...props} />
 }
@@ -99,5 +113,6 @@ export const DynamicForm = {
     MultiSelect: MultiSelectComp,
     Password: PasswordComp,
     FormButtons: FormButtonsComp,
+    Array: ArrayComp,
     useDynamicForm
 };
