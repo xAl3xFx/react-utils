@@ -2,7 +2,7 @@
   "name": "@xal3xfx/react-utils",
   "repository": "git://github.com/xal3xfx/react-utils.git",
   "author": "Alex Petrov",
-  "version": "2.0.6",
+  "version": "2.0.7",
   "license": "MIT",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -72,7 +72,7 @@
     "@types/lodash.clonedeep": "^4.5.7",
     "@types/lodash.debounce": "^4.0.9"
   },
-  "np" : {
-    "tests":false
+  "np": {
+    "tests": false
   }
 }
