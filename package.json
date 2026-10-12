@@ -71,5 +71,8 @@
     "formik": "^2.2.9",
     "@types/lodash.clonedeep": "^4.5.7",
     "@types/lodash.debounce": "^4.0.9"
+  },
+  "np" : {
+    "tests":false
   }
 }
